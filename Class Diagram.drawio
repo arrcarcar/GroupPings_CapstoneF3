@@ -1,0 +1,230 @@
+<mxfile host="app.diagrams.net">
+  <diagram name="Page-1" id="3kbmM2KAWrfTPMh0b90w">
+    <mxGraphModel grid="1" page="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" pageScale="1" pageWidth="1400" pageHeight="850" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="_dDWJsjasnU7p1_FgUGK-1" parent="1" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=40;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;" value="&amp;lt;&amp;lt;abstract&amp;gt;&amp;gt;&lt;div&gt;user&lt;/div&gt;" vertex="1">
+          <mxGeometry height="130" width="160" x="190" y="70" as="geometry" />
+        </mxCell>
+        <mxCell id="_dDWJsjasnU7p1_FgUGK-2" parent="_dDWJsjasnU7p1_FgUGK-1" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" value="-String userID&lt;br&gt;-String username" vertex="1">
+          <mxGeometry height="38" width="160" y="40" as="geometry" />
+        </mxCell>
+        <mxCell id="_dDWJsjasnU7p1_FgUGK-3" parent="_dDWJsjasnU7p1_FgUGK-1" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=inherit;labelPerimeter=1;" value="" vertex="1">
+          <mxGeometry height="14" width="160" y="78" as="geometry" />
+        </mxCell>
+        <mxCell id="_dDWJsjasnU7p1_FgUGK-4" parent="_dDWJsjasnU7p1_FgUGK-1" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" value="+getUsername():String&lt;div id=&quot;SDCloudData&quot;&gt;&lt;div id=&quot;sdclouddataheader&quot;&gt;&lt;/div&gt;&lt;br&gt;&lt;/div&gt;" vertex="1">
+          <mxGeometry height="38" width="160" y="92" as="geometry" />
+        </mxCell>
+        <mxCell id="_dDWJsjasnU7p1_FgUGK-19" edge="1" parent="1" source="_dDWJsjasnU7p1_FgUGK-5" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;defaultLabelBackgroundColor=page;endArrow=block;endFill=0;" target="_dDWJsjasnU7p1_FgUGK-4">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="_dDWJsjasnU7p1_FgUGK-5" parent="1" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;" value="Donor&lt;div id=&quot;SDCloudData&quot;&gt;&lt;div id=&quot;sdclouddataheader&quot;&gt;&lt;/div&gt;&lt;br&gt;&lt;/div&gt;" vertex="1">
+          <mxGeometry height="86" width="160" x="50" y="260" as="geometry" />
+        </mxCell>
+        <mxCell id="_dDWJsjasnU7p1_FgUGK-6" parent="_dDWJsjasnU7p1_FgUGK-5" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" value="-String businessType" vertex="1">
+          <mxGeometry height="26" width="160" y="26" as="geometry" />
+        </mxCell>
+        <mxCell id="_dDWJsjasnU7p1_FgUGK-7" parent="_dDWJsjasnU7p1_FgUGK-5" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=inherit;labelPerimeter=1;" value="" vertex="1">
+          <mxGeometry height="8" width="160" y="52" as="geometry" />
+        </mxCell>
+        <mxCell id="_dDWJsjasnU7p1_FgUGK-8" parent="_dDWJsjasnU7p1_FgUGK-5" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" value="+logSurplusBatch(): void&lt;div id=&quot;SDCloudData&quot;&gt;&lt;div id=&quot;sdclouddataheader&quot;&gt;&lt;/div&gt;&lt;br&gt;&lt;/div&gt;" vertex="1">
+          <mxGeometry height="26" width="160" y="60" as="geometry" />
+        </mxCell>
+        <mxCell id="_dDWJsjasnU7p1_FgUGK-17" edge="1" parent="1" source="_dDWJsjasnU7p1_FgUGK-9" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=1;entryDx=0;entryDy=0;defaultLabelBackgroundColor=page;endArrow=block;endFill=0;" target="_dDWJsjasnU7p1_FgUGK-1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="_dDWJsjasnU7p1_FgUGK-9" parent="1" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;" value="&lt;div id=&quot;SDCloudData&quot;&gt;Recipient&lt;div id=&quot;SDCloudData&quot;&gt;&lt;div id=&quot;sdclouddataheader&quot;&gt;&lt;/div&gt;&lt;br&gt;&lt;/div&gt;&lt;/div&gt;" vertex="1">
+          <mxGeometry height="115" width="160" x="250" y="260" as="geometry" />
+        </mxCell>
+        <mxCell id="_dDWJsjasnU7p1_FgUGK-10" parent="_dDWJsjasnU7p1_FgUGK-9" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" value="-String pantryLocation&lt;div&gt;-int dailyCapacity&lt;/div&gt;" vertex="1">
+          <mxGeometry height="47" width="160" y="26" as="geometry" />
+        </mxCell>
+        <mxCell id="_dDWJsjasnU7p1_FgUGK-11" parent="_dDWJsjasnU7p1_FgUGK-9" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=inherit;labelPerimeter=1;" value="" vertex="1">
+          <mxGeometry height="8" width="160" y="73" as="geometry" />
+        </mxCell>
+        <mxCell id="_dDWJsjasnU7p1_FgUGK-12" parent="_dDWJsjasnU7p1_FgUGK-9" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" value="&lt;div id=&quot;SDCloudData&quot;&gt;+requestFoodBatch():void&lt;/div&gt;" vertex="1">
+          <mxGeometry height="34" width="160" y="81" as="geometry" />
+        </mxCell>
+        <mxCell id="_dDWJsjasnU7p1_FgUGK-18" edge="1" parent="1" source="_dDWJsjasnU7p1_FgUGK-13" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=1;entryY=0.5;entryDx=0;entryDy=0;defaultLabelBackgroundColor=page;endArrow=block;endFill=0;" target="_dDWJsjasnU7p1_FgUGK-4">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="_dDWJsjasnU7p1_FgUGK-13" parent="1" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;" value="&lt;div id=&quot;SDCloudData&quot;&gt;&lt;div id=&quot;SDCloudData&quot;&gt;Volunteer&lt;/div&gt;&lt;/div&gt;" vertex="1">
+          <mxGeometry height="115" width="180" x="440" y="260" as="geometry" />
+        </mxCell>
+        <mxCell id="_dDWJsjasnU7p1_FgUGK-14" parent="_dDWJsjasnU7p1_FgUGK-13" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" value="-String vehicleTyp&lt;div&gt;-boolean isAvailable&lt;div id=&quot;SDCloudData&quot;&gt;&lt;div id=&quot;sdclouddataheader&quot;&gt;&lt;/div&gt;.&lt;/div&gt;&lt;/div&gt;" vertex="1">
+          <mxGeometry height="47" width="180" y="26" as="geometry" />
+        </mxCell>
+        <mxCell id="_dDWJsjasnU7p1_FgUGK-15" parent="_dDWJsjasnU7p1_FgUGK-13" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=inherit;labelPerimeter=1;" value="" vertex="1">
+          <mxGeometry height="8" width="180" y="73" as="geometry" />
+        </mxCell>
+        <mxCell id="_dDWJsjasnU7p1_FgUGK-16" parent="_dDWJsjasnU7p1_FgUGK-13" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" value="&lt;div id=&quot;SDCloudData&quot;&gt;+acceptDispatchRoute(): void&lt;div id=&quot;SDCloudData&quot;&gt;&lt;div id=&quot;sdclouddataheader&quot;&gt;&lt;/div&gt;.&lt;/div&gt;&lt;/div&gt;" vertex="1">
+          <mxGeometry height="34" width="180" y="81" as="geometry" />
+        </mxCell>
+        <mxCell id="_dDWJsjasnU7p1_FgUGK-74" edge="1" parent="1" source="_dDWJsjasnU7p1_FgUGK-20" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;defaultLabelBackgroundColor=page;strokeWidth=2;endArrow=block;endFill=0;" target="_dDWJsjasnU7p1_FgUGK-24">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="_dDWJsjasnU7p1_FgUGK-75" connectable="0" parent="_dDWJsjasnU7p1_FgUGK-74" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];inheritText=1;defaultLabelBackgroundColor=page;" value="Interacts" vertex="1">
+          <mxGeometry relative="1" x="0.0086" y="1" as="geometry">
+            <mxPoint x="1" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="_dDWJsjasnU7p1_FgUGK-20" parent="1" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;" value="&lt;div id=&quot;SDCloudData&quot;&gt;&lt;div id=&quot;SDCloudData&quot;&gt;MainDashboardGUI&lt;/div&gt;&lt;/div&gt;" vertex="1">
+          <mxGeometry height="237" width="220" x="880" y="10" as="geometry" />
+        </mxCell>
+        <mxCell id="_dDWJsjasnU7p1_FgUGK-21" parent="_dDWJsjasnU7p1_FgUGK-20" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" value="- dispatchManager : DispatchManager&lt;br&gt;- tfFoodName : TextField&lt;br&gt;- tfQuantity : TextField&lt;br&gt;- tfExpiration : TextField&lt;br&gt;- tableViewInventory : TableView&amp;lt;FoodItem&amp;gt;" vertex="1">
+          <mxGeometry height="124" width="220" y="26" as="geometry" />
+        </mxCell>
+        <mxCell id="_dDWJsjasnU7p1_FgUGK-22" parent="_dDWJsjasnU7p1_FgUGK-20" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=inherit;labelPerimeter=1;" value="" vertex="1">
+          <mxGeometry height="8" width="220" y="150" as="geometry" />
+        </mxCell>
+        <mxCell id="_dDWJsjasnU7p1_FgUGK-23" parent="_dDWJsjasnU7p1_FgUGK-20" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" value="&lt;div id=&quot;SDCloudData&quot;&gt;+ start(stage : Stage) : void&lt;br&gt;+ handleAddButtonAction() : void&lt;br&gt;+ refreshTable() : void&lt;/div&gt;" vertex="1">
+          <mxGeometry height="79" width="220" y="158" as="geometry" />
+        </mxCell>
+        <mxCell id="_dDWJsjasnU7p1_FgUGK-72" edge="1" parent="1" source="_dDWJsjasnU7p1_FgUGK-24" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;defaultLabelBackgroundColor=page;endArrow=block;endFill=0;dashed=1;strokeWidth=2;" target="_dDWJsjasnU7p1_FgUGK-29">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="_dDWJsjasnU7p1_FgUGK-73" connectable="0" parent="_dDWJsjasnU7p1_FgUGK-72" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];inheritText=1;defaultLabelBackgroundColor=page;" value="Throws" vertex="1">
+          <mxGeometry relative="1" x="-0.5284" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="_dDWJsjasnU7p1_FgUGK-76" edge="1" parent="1" source="_dDWJsjasnU7p1_FgUGK-24" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;defaultLabelBackgroundColor=page;endArrow=block;endFill=0;strokeWidth=2;" target="_dDWJsjasnU7p1_FgUGK-42">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="_dDWJsjasnU7p1_FgUGK-80" connectable="0" parent="_dDWJsjasnU7p1_FgUGK-76" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];inheritText=1;defaultLabelBackgroundColor=page;" value="Uses" vertex="1">
+          <mxGeometry relative="1" x="-0.1032" y="4" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="_dDWJsjasnU7p1_FgUGK-77" edge="1" parent="1" source="_dDWJsjasnU7p1_FgUGK-24" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.75;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;defaultLabelBackgroundColor=page;strokeWidth=2;endArrow=block;endFill=0;" target="_dDWJsjasnU7p1_FgUGK-46">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="_dDWJsjasnU7p1_FgUGK-79" connectable="0" parent="_dDWJsjasnU7p1_FgUGK-77" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];inheritText=1;defaultLabelBackgroundColor=page;" value="Calls" vertex="1">
+          <mxGeometry relative="1" x="-0.4466" y="-2" as="geometry">
+            <mxPoint y="1" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="_dDWJsjasnU7p1_FgUGK-78" edge="1" parent="1" source="_dDWJsjasnU7p1_FgUGK-24" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;defaultLabelBackgroundColor=page;endArrow=block;endFill=0;strokeWidth=2;" target="_dDWJsjasnU7p1_FgUGK-51">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="_dDWJsjasnU7p1_FgUGK-24" parent="1" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;" value="&lt;div id=&quot;SDCloudData&quot;&gt;&lt;div id=&quot;SDCloudData&quot;&gt;DispatchManager&lt;div id=&quot;SDCloudData&quot;&gt;&lt;div id=&quot;sdclouddataheader&quot;&gt;&lt;/div&gt;&lt;br&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;" vertex="1">
+          <mxGeometry height="218" width="320" x="650" y="300" as="geometry" />
+        </mxCell>
+        <mxCell id="_dDWJsjasnU7p1_FgUGK-25" parent="_dDWJsjasnU7p1_FgUGK-24" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" value="- foodInventory : List&lt;br&gt;- currentStrategy : DispatchStrategy" vertex="1">
+          <mxGeometry height="54" width="320" y="26" as="geometry" />
+        </mxCell>
+        <mxCell id="_dDWJsjasnU7p1_FgUGK-26" parent="_dDWJsjasnU7p1_FgUGK-24" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=inherit;labelPerimeter=1;" value="" vertex="1">
+          <mxGeometry height="8" width="320" y="80" as="geometry" />
+        </mxCell>
+        <mxCell id="_dDWJsjasnU7p1_FgUGK-27" parent="_dDWJsjasnU7p1_FgUGK-24" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" value="&lt;div id=&quot;SDCloudData&quot;&gt;+ addFoodItem(name : String, qtyStr : String, hoursStr : String) : void&lt;br&gt;+ removeFoodItem(batchId : String) : void&lt;br&gt;+ setDispatchStrategy(strategy : DispatchStrategy) : void&lt;br&gt;+ processMatching() : List&amp;lt;FoodItem&amp;gt;&lt;/div&gt;" vertex="1">
+          <mxGeometry height="130" width="320" y="88" as="geometry" />
+        </mxCell>
+        <mxCell id="_dDWJsjasnU7p1_FgUGK-29" parent="1" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;" value="&lt;div id=&quot;SDCloudData&quot;&gt;&lt;div id=&quot;SDCloudData&quot;&gt;InvalidFoodInputException&lt;/div&gt;&lt;/div&gt;" vertex="1">
+          <mxGeometry height="68" width="270" x="1170" y="346" as="geometry" />
+        </mxCell>
+        <mxCell id="_dDWJsjasnU7p1_FgUGK-31" parent="_dDWJsjasnU7p1_FgUGK-29" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=inherit;labelPerimeter=1;" value="" vertex="1">
+          <mxGeometry height="8" width="270" y="26" as="geometry" />
+        </mxCell>
+        <mxCell id="_dDWJsjasnU7p1_FgUGK-32" parent="_dDWJsjasnU7p1_FgUGK-29" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" value="&lt;div id=&quot;SDCloudData&quot;&gt;+ InvalidFoodInputException(message : String)&lt;/div&gt;" vertex="1">
+          <mxGeometry height="34" width="270" y="34" as="geometry" />
+        </mxCell>
+        <mxCell id="_dDWJsjasnU7p1_FgUGK-42" parent="1" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=40;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;" value="&lt;div id=&quot;SDCloudData&quot;&gt;&lt;div id=&quot;SDCloudData&quot;&gt;&amp;lt;Interface&amp;gt;&lt;/div&gt;&lt;div id=&quot;SDCloudData&quot;&gt;DispatchStrategy&lt;/div&gt;&lt;/div&gt;" vertex="1">
+          <mxGeometry height="82" width="340" x="850" y="560" as="geometry" />
+        </mxCell>
+        <mxCell id="_dDWJsjasnU7p1_FgUGK-43" parent="_dDWJsjasnU7p1_FgUGK-42" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=inherit;labelPerimeter=1;" value="" vertex="1">
+          <mxGeometry height="8" width="340" y="40" as="geometry" />
+        </mxCell>
+        <mxCell id="_dDWJsjasnU7p1_FgUGK-44" parent="_dDWJsjasnU7p1_FgUGK-42" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" value="&lt;div id=&quot;SDCloudData&quot;&gt;+ sortAndMatch(items : List&amp;lt;FoodItem&amp;gt;) : List&amp;lt;FoodItem&amp;gt;&lt;div id=&quot;SDCloudData&quot;&gt;&lt;div id=&quot;sdclouddataheader&quot;&gt;&lt;/div&gt;.&lt;/div&gt;&lt;/div&gt;" vertex="1">
+          <mxGeometry height="34" width="340" y="48" as="geometry" />
+        </mxCell>
+        <mxCell id="_dDWJsjasnU7p1_FgUGK-46" parent="1" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;" value="&lt;div id=&quot;SDCloudData&quot;&gt;&lt;div id=&quot;SDCloudData&quot;&gt;FileManager&lt;/div&gt;&lt;/div&gt;" vertex="1">
+          <mxGeometry height="149" width="290" x="1280" y="500" as="geometry" />
+        </mxCell>
+        <mxCell id="_dDWJsjasnU7p1_FgUGK-47" parent="_dDWJsjasnU7p1_FgUGK-46" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" value="- FILE_PATH : String {static, final}" vertex="1">
+          <mxGeometry height="47" width="290" y="26" as="geometry" />
+        </mxCell>
+        <mxCell id="_dDWJsjasnU7p1_FgUGK-48" parent="_dDWJsjasnU7p1_FgUGK-46" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=inherit;labelPerimeter=1;" value="" vertex="1">
+          <mxGeometry height="8" width="290" y="73" as="geometry" />
+        </mxCell>
+        <mxCell id="_dDWJsjasnU7p1_FgUGK-49" parent="_dDWJsjasnU7p1_FgUGK-46" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" value="&lt;div id=&quot;SDCloudData&quot;&gt;+ saveInventory(items : List&lt;span style=&quot;background-color: transparent; color: light-dark(#000000, var(--ge-light-color, #ffffff));&quot;&gt;&amp;lt;FoodItem&amp;gt;&lt;/span&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(#000000, var(--ge-light-color, #ffffff));&quot;&gt;) : void {static}&lt;/span&gt;&lt;/div&gt;&lt;div id=&quot;SDCloudData&quot;&gt;+ loadInventory() : List&lt;span style=&quot;background-color: transparent; color: light-dark(#000000, var(--ge-light-color, #ffffff));&quot;&gt;&amp;lt;FoodItem&amp;gt;&lt;/span&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(#000000, var(--ge-light-color, #ffffff));&quot;&gt;{static}&lt;/span&gt;&lt;/div&gt;" vertex="1">
+          <mxGeometry height="68" width="290" y="81" as="geometry" />
+        </mxCell>
+        <mxCell id="_dDWJsjasnU7p1_FgUGK-51" parent="1" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=40;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;" value="&lt;div id=&quot;SDCloudData&quot;&gt;&lt;div id=&quot;SDCloudData&quot;&gt;&lt;div id=&quot;SDCloudData&quot;&gt;&amp;lt;&amp;lt;abstract&amp;gt;&amp;gt;&lt;/div&gt;&lt;div id=&quot;SDCloudData&quot;&gt;FoodItem&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;" vertex="1">
+          <mxGeometry height="246" width="430" x="190" y="480" as="geometry" />
+        </mxCell>
+        <mxCell id="_dDWJsjasnU7p1_FgUGK-52" parent="_dDWJsjasnU7p1_FgUGK-51" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" value="- batchId : String&amp;nbsp;&lt;div&gt;- name : String&amp;nbsp;&lt;/div&gt;&lt;div&gt;- quantity : int&amp;nbsp;&lt;/div&gt;&lt;div&gt;- donorName : String&lt;div id=&quot;SDCloudData&quot;&gt;&lt;div id=&quot;sdclouddataheader&quot;&gt;&lt;/div&gt;.&lt;/div&gt;&lt;/div&gt;" vertex="1">
+          <mxGeometry height="68" width="430" y="40" as="geometry" />
+        </mxCell>
+        <mxCell id="_dDWJsjasnU7p1_FgUGK-53" parent="_dDWJsjasnU7p1_FgUGK-51" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=inherit;labelPerimeter=1;" value="" vertex="1">
+          <mxGeometry height="8" width="430" y="108" as="geometry" />
+        </mxCell>
+        <mxCell id="_dDWJsjasnU7p1_FgUGK-54" parent="_dDWJsjasnU7p1_FgUGK-51" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" value="&lt;div id=&quot;SDCloudData&quot;&gt;+ FoodItem(batchId : String, name : String, quantity : int, donorName : String)&lt;br/&gt;+ getName() : String&lt;br/&gt;+ getQuantity() : int&lt;br/&gt;+ setQuantity(quantity : int) : void&lt;br/&gt;+ isSafeForDistribution() : boolean&lt;br/&gt;+ toString() : String&lt;div id=&quot;SDCloudData&quot;&gt;&lt;div id=&quot;sdclouddataheader&quot;&gt;&lt;/div&gt;.&lt;/div&gt;&lt;/div&gt;" vertex="1">
+          <mxGeometry height="130" width="430" y="116" as="geometry" />
+        </mxCell>
+        <mxCell id="_dDWJsjasnU7p1_FgUGK-56" parent="1" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;" value="&lt;div id=&quot;SDCloudData&quot;&gt;&lt;div id=&quot;SDCloudData&quot;&gt;PerishableFood&lt;/div&gt;&lt;/div&gt;" vertex="1">
+          <mxGeometry height="196" width="350" x="100" y="810" as="geometry" />
+        </mxCell>
+        <mxCell id="_dDWJsjasnU7p1_FgUGK-57" parent="_dDWJsjasnU7p1_FgUGK-56" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" value="- hoursUntilExpiration : int&amp;nbsp;&lt;div&gt;- requiresRefrigeration : boolean&lt;div id=&quot;SDCloudData&quot;&gt;&lt;div id=&quot;sdclouddataheader&quot;&gt;&lt;/div&gt;.&lt;/div&gt;&lt;/div&gt;" vertex="1">
+          <mxGeometry height="47" width="350" y="26" as="geometry" />
+        </mxCell>
+        <mxCell id="_dDWJsjasnU7p1_FgUGK-58" parent="_dDWJsjasnU7p1_FgUGK-56" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=inherit;labelPerimeter=1;" value="" vertex="1">
+          <mxGeometry height="8" width="350" y="73" as="geometry" />
+        </mxCell>
+        <mxCell id="_dDWJsjasnU7p1_FgUGK-59" parent="_dDWJsjasnU7p1_FgUGK-56" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" value="&lt;div id=&quot;SDCloudData&quot;&gt;+ PerishableFood(batchId : String, name : String, quantity : int, hoursUntilExpiration : int, requiresRefrigeration : boolean)&lt;br/&gt;+ getHoursUntilExpiration() : int&lt;br/&gt;+ isSafeForDistribution() : boolean&lt;div id=&quot;SDCloudData&quot;&gt;&lt;div id=&quot;sdclouddataheader&quot;&gt;&lt;/div&gt;.&lt;/div&gt;&lt;/div&gt;" vertex="1">
+          <mxGeometry height="115" width="350" y="81" as="geometry" />
+        </mxCell>
+        <mxCell id="_dDWJsjasnU7p1_FgUGK-88" edge="1" parent="1" source="_dDWJsjasnU7p1_FgUGK-60" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=1;entryY=0.5;entryDx=0;entryDy=0;defaultLabelBackgroundColor=page;endArrow=block;endFill=0;strokeWidth=2;" target="_dDWJsjasnU7p1_FgUGK-54">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="_dDWJsjasnU7p1_FgUGK-60" parent="1" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;" value="&lt;div id=&quot;SDCloudData&quot;&gt;&lt;div id=&quot;SDCloudData&quot;&gt;NonPerishableFood&lt;/div&gt;&lt;/div&gt;" vertex="1">
+          <mxGeometry height="196" width="350" x="510" y="810" as="geometry" />
+        </mxCell>
+        <mxCell id="_dDWJsjasnU7p1_FgUGK-61" parent="_dDWJsjasnU7p1_FgUGK-60" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" value="- bestBeforeDate : String&amp;nbsp;&lt;div&gt;- packagingCondition : String&lt;/div&gt;" vertex="1">
+          <mxGeometry height="47" width="350" y="26" as="geometry" />
+        </mxCell>
+        <mxCell id="_dDWJsjasnU7p1_FgUGK-62" parent="_dDWJsjasnU7p1_FgUGK-60" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=inherit;labelPerimeter=1;" value="" vertex="1">
+          <mxGeometry height="8" width="350" y="73" as="geometry" />
+        </mxCell>
+        <mxCell id="_dDWJsjasnU7p1_FgUGK-63" parent="_dDWJsjasnU7p1_FgUGK-60" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" value="&lt;div id=&quot;SDCloudData&quot;&gt;+ NonPerishableFood(batchId : String, name : String, quantity : int, bestBeforeDate : String, packagingCondition : String)&lt;br/&gt;+ isSafeForDistribution() : boolean&lt;div id=&quot;SDCloudData&quot;&gt;&lt;div id=&quot;sdclouddataheader&quot;&gt;&lt;/div&gt;.&lt;/div&gt;&lt;/div&gt;" vertex="1">
+          <mxGeometry height="115" width="350" y="81" as="geometry" />
+        </mxCell>
+        <mxCell id="_dDWJsjasnU7p1_FgUGK-64" parent="1" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=40;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;" value="&lt;div id=&quot;SDCloudData&quot;&gt;&lt;div id=&quot;SDCloudData&quot;&gt;UrgencyFirstStrategy&lt;/div&gt;&lt;/div&gt;" vertex="1">
+          <mxGeometry height="82" width="340" x="920" y="830" as="geometry" />
+        </mxCell>
+        <mxCell id="_dDWJsjasnU7p1_FgUGK-65" parent="_dDWJsjasnU7p1_FgUGK-64" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=inherit;labelPerimeter=1;" value="" vertex="1">
+          <mxGeometry height="8" width="340" y="40" as="geometry" />
+        </mxCell>
+        <mxCell id="_dDWJsjasnU7p1_FgUGK-66" parent="_dDWJsjasnU7p1_FgUGK-64" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" value="&lt;div id=&quot;SDCloudData&quot;&gt;+ sortAndMatch(items : List&amp;lt;FoodItem&amp;gt;) : List&amp;lt;FoodItem&amp;gt;&lt;div id=&quot;SDCloudData&quot;&gt;&lt;div id=&quot;sdclouddataheader&quot;&gt;&lt;/div&gt;.&lt;/div&gt;&lt;/div&gt;" vertex="1">
+          <mxGeometry height="34" width="340" y="48" as="geometry" />
+        </mxCell>
+        <mxCell id="_dDWJsjasnU7p1_FgUGK-67" parent="1" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=40;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;" value="&lt;div id=&quot;SDCloudData&quot;&gt;&lt;div id=&quot;SDCloudData&quot;&gt;VolumeFirstStrategy&lt;/div&gt;&lt;/div&gt;" vertex="1">
+          <mxGeometry height="82" width="340" x="1310" y="830" as="geometry" />
+        </mxCell>
+        <mxCell id="_dDWJsjasnU7p1_FgUGK-68" parent="_dDWJsjasnU7p1_FgUGK-67" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=inherit;labelPerimeter=1;" value="" vertex="1">
+          <mxGeometry height="8" width="340" y="40" as="geometry" />
+        </mxCell>
+        <mxCell id="_dDWJsjasnU7p1_FgUGK-69" parent="_dDWJsjasnU7p1_FgUGK-67" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" value="&lt;div id=&quot;SDCloudData&quot;&gt;+ sortAndMatch(items : List&amp;lt;FoodItem&amp;gt;) : List&amp;lt;FoodItem&amp;gt;&lt;div id=&quot;SDCloudData&quot;&gt;&lt;div id=&quot;sdclouddataheader&quot;&gt;&lt;/div&gt;.&lt;/div&gt;&lt;/div&gt;" vertex="1">
+          <mxGeometry height="34" width="340" y="48" as="geometry" />
+        </mxCell>
+        <mxCell id="_dDWJsjasnU7p1_FgUGK-70" edge="1" parent="1" source="_dDWJsjasnU7p1_FgUGK-21" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;defaultLabelBackgroundColor=page;endArrow=block;endFill=0;dashed=1;strokeWidth=2;" target="_dDWJsjasnU7p1_FgUGK-29">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="_dDWJsjasnU7p1_FgUGK-71" connectable="0" parent="_dDWJsjasnU7p1_FgUGK-70" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];inheritText=1;defaultLabelBackgroundColor=page;" value="Catches" vertex="1">
+          <mxGeometry relative="1" x="-0.2627" y="-2" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="_dDWJsjasnU7p1_FgUGK-86" edge="1" parent="1" source="_dDWJsjasnU7p1_FgUGK-67" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.525;entryY=1.009;entryDx=0;entryDy=0;entryPerimeter=0;defaultLabelBackgroundColor=page;endArrow=block;endFill=0;strokeWidth=2;dashed=1;" target="_dDWJsjasnU7p1_FgUGK-44">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="_dDWJsjasnU7p1_FgUGK-87" edge="1" parent="1" source="_dDWJsjasnU7p1_FgUGK-64" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.522;entryY=1.027;entryDx=0;entryDy=0;entryPerimeter=0;defaultLabelBackgroundColor=page;endArrow=block;endFill=0;dashed=1;strokeWidth=2;" target="_dDWJsjasnU7p1_FgUGK-44">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="_dDWJsjasnU7p1_FgUGK-90" edge="1" parent="1" source="_dDWJsjasnU7p1_FgUGK-56" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.196;entryY=0.992;entryDx=0;entryDy=0;entryPerimeter=0;defaultLabelBackgroundColor=page;endArrow=block;endFill=0;strokeWidth=2;" target="_dDWJsjasnU7p1_FgUGK-54">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
