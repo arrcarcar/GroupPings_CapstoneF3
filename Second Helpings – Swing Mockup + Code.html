@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Second Helpings – Swing Mockup + Code</title>
+<style>
+:root{--bg:#fff;--fg:#1d1d1f;--mut:#666;--bd:#c9c9c9;--pn:#f3f3f3;--tb:#dde2e8;--bt:#e3e3e3;--ac:#2f6fd1;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media(prefers-color-scheme:dark){:root:not([data-theme=light]){--bg:#18191b;--fg:#eee;--mut:#aaa;--bd:#444;--pn:#26282b;--tb:#33373d;--bt:#3a3d42}}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--fg);font:15px/1.45 system-ui,sans-serif;padding:16px}
+h1{font-size:20px;margin:0 0 4px}.sub{color:var(--mut);margin:0 0 12px}
+.top button,.nav button,.files button{font:inherit;border:1px solid var(--bd);background:var(--pn);color:var(--fg);padding:6px 12px;border-radius:6px;cursor:pointer;margin:0 6px 6px 0}
+.on{background:var(--ac)!important;color:#fff!important;border-color:var(--ac)!important}
+.win{max-width:720px;border:1px solid #777;background:var(--pn);box-shadow:0 4px 14px #0003;position:relative;margin-top:8px}
+.tbar{background:var(--tb);padding:5px 10px;font-size:13px;display:flex;justify-content:space-between;border-bottom:1px solid var(--bd)}
+.body{padding:16px}.body label{display:block;margin:8px 0 3px;font-size:13px}
+.body input,.body select{width:100%;box-sizing:border-box;padding:5px;border:1px solid #888;background:var(--bg);color:var(--fg);font:inherit}
+.sw{background:var(--bt);color:var(--fg);border:1px solid #888;border-radius:3px;padding:5px 16px;font:inherit;cursor:pointer;margin:10px 8px 0 0}
+.tabs{display:flex;gap:2px;border-bottom:1px solid #888;margin-bottom:10px}
+.tabs span{padding:5px 14px;border:1px solid #888;border-bottom:0;cursor:pointer;background:var(--bt);font-size:14px}
+.tabs .t{background:var(--bg);font-weight:600}
+table{width:100%;border-collapse:collapse;background:var(--bg);font-size:13px}
+th,td{border:1px solid var(--bd);padding:4px 6px;text-align:left}th{background:var(--tb)}
+tr.s td{background:var(--ac);color:#fff}
+.wrap{overflow-x:auto}
+.dlg{position:absolute;inset:0;background:#0005;display:flex;align-items:center;justify-content:center}
+.dlg div{background:var(--pn);border:1px solid #777;padding:14px 18px;min-width:240px}
+.dlg b{display:block;margin-bottom:8px}
+pre{background:#0f1115;color:#e6e6e6;padding:12px;border-radius:6px;overflow-x:auto;font:12.5px/1.45 ui-monospace,Menlo,Consolas,monospace;max-height:520px}
+.note{color:var(--mut);font-size:13px;margin-top:10px}
+</style></head><body>
+<h1>Second Helpings – Swing interface mockup + code</h1>
+<p class="sub">Functionality first. Click through the windows exactly as the Java app will behave.</p>
+<div class="top"><button id="bm" class="on" onclick="mode('m')">Interface mockup</button><button id="bc" onclick="mode('c')">Java code</button></div>
+
+<div id="mock">
+<div class="nav" id="nav"></div>
+<div id="stage"></div>
+<p class="note">Sample accounts in the mock: <b>supplier1 / pass123</b> or <b>recipient1 / pass123</b>. Try adding a blank name or quantity 0 to see the custom exception popup.</p>
+</div>
+
+<div id="code" hidden>
+<div class="files" id="files"></div>
+<button class="sw" onclick="cp()" id="cpb">Copy this file</button>
+<pre id="src"></pre>
+<p class="note">Setup: IntelliJ → New Project (Java, JDK 17+) → paste each file into <b>src/</b> (default package). Run <b>Main</b>. The GUI is built in code, so no .form files are needed. Data saves to <b>inventory_data.txt</b> in the project folder.</p>
+</div>
+
+<script>
+const S={scr:'login',user:'',role:'',est:'',tab:0,strat:0,sel:null,dlg:null,err:'',seq:5,
+items:[
+{id:'B001',n:'Bread rolls',q:40,t:'Perishable',h:6,d:'Sunrise Bakery',st:'AVAILABLE',by:'-',v:'-'},
+{id:'B002',n:'Canned sardines',q:120,t:'Non-perishable',h:720,d:'Metro Supermart',st:'AVAILABLE',by:'-',v:'-'},
+{id:'B003',n:'Cooked rice',q:25,t:'Perishable',h:4,d:'Casa Resto',st:'AVAILABLE',by:'-',v:'-'},
+{id:'B004',n:'Instant noodles',q:60,t:'Non-perishable',h:2160,d:'Metro Supermart',st:'AVAILABLE',by:'-',v:'-'}]};
+const E=x=>document.getElementById(x);
+const win=(t,b,w)=>`<div class="win" style="max-width:${w||380}px"><div class="tbar"><span>${t}</span><span>– ▢ ✕</span></div><div class="body">${b}</div>${S.dlg?`<div class="dlg"><div><b>${S.dlg[0]}</b>${S.dlg[1]}<br><button class="sw" onclick="S.dlg=null;draw()">OK</button></div></div>`:''}</div>`;
+const NAV=[['login','1 Login'],['role','2 Role'],['sup','2a Supplier'],['rec','2b Recipient'],['dash','3 Dashboard']];
+function go(s){S.scr=s;S.dlg=null;if(s=='dash'&&!S.role){S.user=S.user||'supplier1';S.role='Supplier';S.est='Bakery'}draw()}
+function login(){const u=E('u').value.trim(),p=E('p').value;
+ if((u=='supplier1'||u=='recipient1')&&p=='pass123'){S.user=u;S.scr='role'}else S.dlg=['Login failed','Wrong username or password.'];draw()}
+function role(){S.role=document.querySelector('[name=r]:checked').value;S.scr=S.role=='Supplier'?'sup':'rec';draw()}
+function est(){S.est=E('e').value;S.scr='dash';S.tab=0;draw()}
+function add(){const n=E('fn').value.trim(),q=E('fq').value.trim(),x=E('fx').value.trim(),per=E('ft').value=='Perishable';
+ let m='';if(!n)m='Food name cannot be left blank!';else if(n.includes(','))m='Food name cannot contain commas!';
+ else if(!/^-?\d+$/.test(q)||!/^-?\d+$/.test(x))m='Quantity and expiry must be whole numbers!';
+ else if(+q<=0)m='Quantity must be greater than zero!';else if(+x<=0)m='Expiration value must be greater than zero!';
+ if(m){S.dlg=['InvalidFoodInputException',m]}else{S.items.push({id:'B00'+S.seq++,n,q:+q,t:per?'Perishable':'Non-perishable',h:per?+x:+x*24,d:S.user,st:'AVAILABLE',by:'-',v:'-'});S.dlg=['Success','Surplus added to the dispatch feed.']}draw()}
+const feed=()=>{let a=S.items.filter(i=>i.st=='AVAILABLE'&&(i.t!='Perishable'||i.h>2));return a.sort(S.strat?(x,y)=>y.q-x.q:(x,y)=>x.h-y.h)};
+const act=()=>S.items.filter(i=>i.st=='CLAIMED'||i.st=='ON ROUTE');
+function pick(id){S.sel=id;draw()}
+function claim(){const i=S.items.find(x=>x.id==S.sel);if(!i||i.st!='AVAILABLE'){S.dlg=['No selection','Select an available batch first.']}else{i.st='CLAIMED';i.by=S.user;S.sel=null;S.dlg=['Claimed','Batch '+i.id+' claimed. See Active Deliveries.']}draw()}
+function assign(){const i=S.items.find(x=>x.id==S.sel),v=E('vn').value.trim();
+ if(!i||i.st!='CLAIMED')S.dlg=['No selection','Select a CLAIMED batch first.'];else if(!v)S.dlg=['InvalidFoodInputException','Volunteer name cannot be blank!'];else{i.v=v;i.st='ON ROUTE'}draw()}
+function done(){const i=S.items.find(x=>x.id==S.sel);if(!i||i.st!='ON ROUTE')S.dlg=['No selection','Select an ON ROUTE delivery.'];else{i.st='DELIVERED';S.sel=null}draw()}
+const rows=(a,f)=>a.map(i=>`<tr class="${S.sel==i.id?'s':''}" onclick="pick('${i.id}')">${f(i).map(c=>`<td>${c}</td>`).join('')}</tr>`).join('');
+function draw(){
+ E('nav').innerHTML=NAV.map(x=>`<button class="${S.scr==x[0]?'on':''}" onclick="go('${x[0]}')">${x[1]}</button>`).join('');
+ let h='';
+ if(S.scr=='login')h=win('Second Helpings – Login',`<label>Username</label><input id="u" value="supplier1"><label>Password</label><input id="p" type="password" value="pass123"><button class="sw" onclick="login()">Login</button><button class="sw" onclick="S.dlg=['Exit','Application closes.'];draw()">Exit</button>`);
+ if(S.scr=='role')h=win('Choose your role',`<p>Welcome, <b>${S.user}</b>. Are you a:</p><label><input type="radio" name="r" value="Supplier" checked style="width:auto"> Supplier</label><label><input type="radio" name="r" value="Recipient" style="width:auto"> Recipient</label><button class="sw" onclick="role()">Confirm</button>`);
+ if(S.scr=='sup'||S.scr=='rec'){const s=S.scr=='sup';h=win(s?'Supplier – Establishment':'Recipient – Establishment',`<label>Select your establishment</label><select id="e">${(s?['Restaurant','Bakery','Supermarket']:['Orphanage','Nursing Home','Homeless Shelter']).map(o=>`<option>${o}</option>`).join('')}</select><button class="sw" onclick="est()">Confirm</button>`)}
+ if(S.scr=='dash'){const T=['Donor Portal','Pantry Dispatch Feed','Active Deliveries'];let b=`<div class="tabs">${T.map((t,i)=>`<span class="${S.tab==i?'t':''}" onclick="S.tab=${i};S.sel=null;draw()">${t}</span>`).join('')}</div>`;
+  if(S.tab==0)b+=`<label>Food type</label><select id="ft"><option>Perishable</option><option>Non-perishable</option></select><label>Food name</label><input id="fn"><label>Quantity</label><input id="fq"><label>Expiration (hours if perishable / days if non-perishable)</label><input id="fx"><button class="sw" onclick="add()">Add Surplus</button>`;
+  if(S.tab==1)b+=`<label>Dispatch strategy</label><select onchange="S.strat=this.selectedIndex;draw()"><option ${S.strat?'':'selected'}>Urgency first (shortest expiry)</option><option ${S.strat?'selected':''}>Volume first (highest quantity)</option></select><br><div class="wrap"><table><tr><th>ID</th><th>Food</th><th>Qty</th><th>Type</th><th>Hrs left</th><th>Donor</th></tr>${rows(feed(),i=>[i.id,i.n,i.q,i.t,i.h,i.d])}</table></div><button class="sw" onclick="claim()">Claim Selected</button>`;
+  if(S.tab==2)b+=`<div class="wrap"><table><tr><th>ID</th><th>Food</th><th>Qty</th><th>Recipient</th><th>Volunteer</th><th>Status</th></tr>${rows(act(),i=>[i.id,i.n,i.q,i.by,i.v,i.st])}</table></div><label>Volunteer name</label><input id="vn"><button class="sw" onclick="assign()">Assign Volunteer</button><button class="sw" onclick="done()">Mark Delivered</button>`;
+  h=win('Second Helpings – Dashboard ('+S.user+' · '+S.role+' · '+S.est+')',b,720)}
+ E('stage').innerHTML=h}
+function mode(m){E('mock').hidden=m!='m';E('code').hidden=m!='c';E('bm').className=m=='m'?'on':'';E('bc').className=m=='c'?'on':''}
+
+const F={};
+F['Main.java']=`import javax.swing.*;
+
+public class Main {
+    public static final DispatchManager DM = new DispatchManager();
+
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(() -> new LoginFrame().setVisible(true));
+    }
+}`;
+F['InvalidFoodInputException.java']=`public class InvalidFoodInputException extends Exception {
+    public InvalidFoodInputException(String message) {
+        super(message);
+    }
+}`;
+F['FoodItem.java']=`// Abstraction + Encapsulation
+public abstract class FoodItem {
+    private String batchId, name, donorName;
+    private int quantity;
+    private String status = "AVAILABLE", claimedBy = "-", volunteer = "-";
+
+    public FoodItem(String batchId, String name, int quantity, String donorName) {
+        this.batchId = batchId; this.name = name;
+        this.quantity = quantity; this.donorName = donorName;
+    }
+    public abstract boolean isSafeForDistribution();   // Polymorphism
+    public abstract int getHoursLeft();
+    public abstract String getTypeName();
+    protected abstract String extraCsv();
+
+    public String toCsv() {
+        return String.join(",", getTypeName(), batchId, name, "" + quantity, donorName,
+                extraCsv(), status, claimedBy, volunteer);
+    }
+    public String getBatchId() { return batchId; }
+    public String getName() { return name; }
+    public int getQuantity() { return quantity; }
+    public void setQuantity(int q) { quantity = q; }
+    public String getDonorName() { return donorName; }
+    public String getStatus() { return status; }
+    public void setStatus(String s) { status = s; }
+    public String getClaimedBy() { return claimedBy; }
+    public void setClaimedBy(String c) { claimedBy = c; }
+    public String getVolunteer() { return volunteer; }
+    public void setVolunteer(String v) { volunteer = v; }
+}`;
+F['PerishableFood.java']=`public class PerishableFood extends FoodItem {
+    private int hoursUntilExpiration;
+    private boolean requiresRefrigeration;
+
+    public PerishableFood(String id, String name, int qty, String donor, int hours, boolean fridge) {
+        super(id, name, qty, donor);
+        this.hoursUntilExpiration = hours;
+        this.requiresRefrigeration = fridge;
+    }
+    @Override public boolean isSafeForDistribution() { return hoursUntilExpiration > 2; }
+    @Override public int getHoursLeft() { return hoursUntilExpiration; }
+    @Override public String getTypeName() { return "Perishable"; }
+    @Override protected String extraCsv() { return hoursUntilExpiration + "," + requiresRefrigeration; }
+}`;
+F['NonPerishableFood.java']=`public class NonPerishableFood extends FoodItem {
+    private int daysUntilBestBefore;
+    private boolean packagingIntact;
+
+    public NonPerishableFood(String id, String name, int qty, String donor, int days, boolean intact) {
+        super(id, name, qty, donor);
+        this.daysUntilBestBefore = days;
+        this.packagingIntact = intact;
+    }
+    @Override public boolean isSafeForDistribution() { return daysUntilBestBefore > 0 && packagingIntact; }
+    @Override public int getHoursLeft() { return daysUntilBestBefore * 24; }
+    @Override public String getTypeName() { return "Non-perishable"; }
+    @Override protected String extraCsv() { return daysUntilBestBefore + "," + packagingIntact; }
+}`;
+F['DispatchStrategy.java']=`import java.util.List;
+
+public interface DispatchStrategy {
+    List<FoodItem> sortAndMatch(List<FoodItem> items);
+}`;
+F['UrgencyFirstStrategy.java']=`import java.util.*;
+
+public class UrgencyFirstStrategy implements DispatchStrategy {
+    @Override
+    public List<FoodItem> sortAndMatch(List<FoodItem> items) {
+        List<FoodItem> copy = new ArrayList<>(items);
+        copy.sort(Comparator.comparingInt(FoodItem::getHoursLeft));
+        return copy;
+    }
+}`;
+F['VolumeFirstStrategy.java']=`import java.util.*;
+
+public class VolumeFirstStrategy implements DispatchStrategy {
+    @Override
+    public List<FoodItem> sortAndMatch(List<FoodItem> items) {
+        List<FoodItem> copy = new ArrayList<>(items);
+        copy.sort(Comparator.comparingInt(FoodItem::getQuantity).reversed());
+        return copy;
+    }
+}`;
+F['FileManager.java']=`import java.io.*;
+import java.util.*;
+
+public class FileManager {
+    private static final String FILE_PATH = "inventory_data.txt";
+
+    public static void saveInventory(List<FoodItem> items) {
+        try (PrintWriter w = new PrintWriter(new FileWriter(FILE_PATH))) {
+            for (FoodItem i : items) w.println(i.toCsv());
+        } catch (IOException e) {
+            System.out.println("Error saving file: " + e.getMessage());
+        }
+    }
+
+    public static List<FoodItem> loadInventory() {
+        List<FoodItem> list = new ArrayList<>();
+        File f = new File(FILE_PATH);
+        if (!f.exists()) return list;
+        try (BufferedReader r = new BufferedReader(new FileReader(f))) {
+            String line;
+            while ((line = r.readLine()) != null) {
+                String[] p = line.split(",");
+                FoodItem it = p[0].equals("Perishable")
+                    ? new PerishableFood(p[1], p[2], Integer.parseInt(p[3]), p[4],
+                          Integer.parseInt(p[5]), Boolean.parseBoolean(p[6]))
+                    : new NonPerishableFood(p[1], p[2], Integer.parseInt(p[3]), p[4],
+                          Integer.parseInt(p[5]), Boolean.parseBoolean(p[6]));
+                it.setStatus(p[7]); it.setClaimedBy(p[8]); it.setVolunteer(p[9]);
+                list.add(it);
+            }
+        } catch (IOException | RuntimeException e) {
+            System.out.println("Error loading file: " + e.getMessage());
+        }
+        return list;
+    }
+}`;
+F['DispatchManager.java']=`import java.util.*;
+
+public class DispatchManager {
+    private final List<FoodItem> inventory = FileManager.loadInventory();
+    private DispatchStrategy currentStrategy = new UrgencyFirstStrategy();
+    private int counter = inventory.size() + 1;
+
+    public void addFoodItem(boolean perishable, String name, String qtyStr, String expStr,
+                            boolean flag, String donor) throws InvalidFoodInputException {
+        if (name == null || name.trim().isEmpty())
+            throw new InvalidFoodInputException("Food name cannot be left blank!");
+        if (name.contains(","))
+            throw new InvalidFoodInputException("Food name cannot contain commas!");
+        int qty, exp;
+        try {
+            qty = Integer.parseInt(qtyStr.trim());
+            exp = Integer.parseInt(expStr.trim());
+        } catch (NumberFormatException e) {
+            throw new InvalidFoodInputException("Quantity and expiry must be whole numbers!");
+        }
+        if (qty <= 0) throw new InvalidFoodInputException("Quantity must be greater than zero!");
+        if (exp <= 0) throw new InvalidFoodInputException("Expiration value must be greater than zero!");
+        String id = String.format("B%03d", counter++);
+        inventory.add(perishable
+            ? new PerishableFood(id, name.trim(), qty, donor, exp, flag)
+            : new NonPerishableFood(id, name.trim(), qty, donor, exp, flag));
+        FileManager.saveInventory(inventory);
+    }
+
+    public void setDispatchStrategy(DispatchStrategy s) { currentStrategy = s; }
+
+    public List<FoodItem> processMatching() {   // dispatch feed
+        List<FoodItem> avail = new ArrayList<>();
+        for (FoodItem i : inventory)
+            if (i.getStatus().equals("AVAILABLE") && i.isSafeForDistribution()) avail.add(i);
+        return currentStrategy.sortAndMatch(avail);
+    }
+
+    public List<FoodItem> getActiveDeliveries() {
+        List<FoodItem> act = new ArrayList<>();
+        for (FoodItem i : inventory)
+            if (i.getStatus().equals("CLAIMED") || i.getStatus().equals("ON ROUTE")) act.add(i);
+        return act;
+    }
+
+    private FoodItem find(String id) {
+        for (FoodItem i : inventory) if (i.getBatchId().equals(id)) return i;
+        return null;
+    }
+    public void claim(String id, String recipient) {
+        FoodItem i = find(id);
+        if (i != null) { i.setStatus("CLAIMED"); i.setClaimedBy(recipient); save(); }
+    }
+    public void assignVolunteer(String id, String vol) throws InvalidFoodInputException {
+        if (vol == null || vol.trim().isEmpty())
+            throw new InvalidFoodInputException("Volunteer name cannot be blank!");
+        FoodItem i = find(id);
+        if (i != null) { i.setVolunteer(vol.trim()); i.setStatus("ON ROUTE"); save(); }
+    }
+    public void markDelivered(String id) {
+        FoodItem i = find(id);
+        if (i != null) { i.setStatus("DELIVERED"); save(); }
+    }
+    public void save() { FileManager.saveInventory(inventory); }
+}`;
+F['LoginFrame.java']=`import javax.swing.*;
+import java.awt.*;
+import java.util.Map;
+
+public class LoginFrame extends JFrame {
+    // Demo accounts (replace with a users file later)
+    private static final Map<String, String> ACCOUNTS =
+        Map.of("supplier1", "pass123", "recipient1", "pass123");
+
+    public LoginFrame() {
+        super("Second Helpings - Login");
+        JTextField user = new JTextField();
+        JPasswordField pass = new JPasswordField();
+        JButton login = new JButton("Login"), exit = new JButton("Exit");
+
+        JPanel p = new JPanel(new GridLayout(0, 1, 5, 5));
+        p.setBorder(BorderFactory.createEmptyBorder(15, 20, 15, 20));
+        p.add(new JLabel("Username")); p.add(user);
+        p.add(new JLabel("Password")); p.add(pass);
+        JPanel b = new JPanel(); b.add(login); b.add(exit); p.add(b);
+        add(p);
+
+        login.addActionListener(e -> {
+            String u = user.getText().trim(), pw = new String(pass.getPassword());
+            if (pw.equals(ACCOUNTS.get(u))) { new RoleFrame(u).setVisible(true); dispose(); }
+            else JOptionPane.showMessageDialog(this, "Wrong username or password.",
+                    "Login failed", JOptionPane.ERROR_MESSAGE);
+        });
+        exit.addActionListener(e -> System.exit(0));
+        setDefaultCloseOperation(EXIT_ON_CLOSE);
+        setSize(340, 270); setLocationRelativeTo(null);
+    }
+}`;
+F['RoleFrame.java']=`import javax.swing.*;
+import java.awt.*;
+
+public class RoleFrame extends JFrame {
+    public RoleFrame(String user) {
+        super("Choose your role");
+        JRadioButton sup = new JRadioButton("Supplier", true), rec = new JRadioButton("Recipient");
+        ButtonGroup g = new ButtonGroup(); g.add(sup); g.add(rec);
+        JButton ok = new JButton("Confirm");
+
+        JPanel p = new JPanel(new GridLayout(0, 1, 5, 5));
+        p.setBorder(BorderFactory.createEmptyBorder(15, 20, 15, 20));
+        p.add(new JLabel("Welcome, " + user + ". Are you a:"));
+        p.add(sup); p.add(rec); p.add(ok);
+        add(p);
+
+        ok.addActionListener(e -> {
+            new EstablishmentFrame(user, sup.isSelected()).setVisible(true);
+            dispose();
+        });
+        setDefaultCloseOperation(EXIT_ON_CLOSE);
+        setSize(320, 220); setLocationRelativeTo(null);
+    }
+}`;
+F['EstablishmentFrame.java']=`import javax.swing.*;
+import java.awt.*;
+
+// One class serves window 2 (supplier) and 2.1 (recipient)
+public class EstablishmentFrame extends JFrame {
+    public EstablishmentFrame(String user, boolean supplier) {
+        super(supplier ? "Supplier - Establishment" : "Recipient - Establishment");
+        String[] opts = supplier
+            ? new String[]{"Restaurant", "Bakery", "Supermarket"}
+            : new String[]{"Orphanage", "Nursing Home", "Homeless Shelter"};
+        JComboBox<String> box = new JComboBox<>(opts);
+        JButton ok = new JButton("Confirm");
+
+        JPanel p = new JPanel(new GridLayout(0, 1, 5, 5));
+        p.setBorder(BorderFactory.createEmptyBorder(15, 20, 15, 20));
+        p.add(new JLabel("Select your establishment")); p.add(box); p.add(ok);
+        add(p);
+
+        ok.addActionListener(e -> {
+            String role = supplier ? "Supplier" : "Recipient";
+            new DashboardFrame(user, role, (String) box.getSelectedItem()).setVisible(true);
+            dispose();
+        });
+        setDefaultCloseOperation(EXIT_ON_CLOSE);
+        setSize(320, 200); setLocationRelativeTo(null);
+    }
+}`;
+F['DashboardFrame.java']=`import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
+import java.awt.*;
+import java.awt.event.*;
+import java.util.List;
+
+public class DashboardFrame extends JFrame {
+    private final DispatchManager dm = Main.DM;
+    private final String user;
+    private final DefaultTableModel feedM = model("ID", "Food", "Qty", "Type", "Hrs left", "Donor");
+    private final DefaultTableModel actM = model("ID", "Food", "Qty", "Recipient", "Volunteer", "Status");
+    private final JTable feedT = new JTable(feedM), actT = new JTable(actM);
+
+    private static DefaultTableModel model(String... cols) {
+        return new DefaultTableModel(cols, 0) {
+            @Override public boolean isCellEditable(int r, int c) { return false; }
+        };
+    }
+
+    public DashboardFrame(String user, String role, String est) {
+        super("Second Helpings - Dashboard (" + user + " | " + role + " | " + est + ")");
+        this.user = user;
+        JTabbedPane tabs = new JTabbedPane();
+        tabs.addTab("Donor Portal", donorPanel());
+        tabs.addTab("Pantry Dispatch Feed", feedPanel());
+        tabs.addTab("Active Deliveries", activePanel());
+        add(tabs);
+        refresh();
+
+        setDefaultCloseOperation(EXIT_ON_CLOSE);
+        addWindowListener(new WindowAdapter() {
+            @Override public void windowClosing(WindowEvent e) { dm.save(); }
+        });
+        setSize(720, 460); setLocationRelativeTo(null);
+    }
+
+    private JPanel donorPanel() {
+        JComboBox<String> type = new JComboBox<>(new String[]{"Perishable", "Non-perishable"});
+        JTextField name = new JTextField(), qty = new JTextField(), exp = new JTextField();
+        JLabel expL = new JLabel("Hours until expiration");
+        JCheckBox chk = new JCheckBox("Requires refrigeration");
+        JButton add = new JButton("Add Surplus");
+
+        type.addActionListener(e -> {
+            boolean per = type.getSelectedIndex() == 0;
+            expL.setText(per ? "Hours until expiration" : "Days until best-before");
+            chk.setText(per ? "Requires refrigeration" : "Packaging intact");
+            chk.setSelected(!per);
+        });
+        add.addActionListener(e -> {
+            try {
+                dm.addFoodItem(type.getSelectedIndex() == 0, name.getText(), qty.getText(),
+                               exp.getText(), chk.isSelected(), user);
+                JOptionPane.showMessageDialog(this, "Surplus added to the dispatch feed.");
+                name.setText(""); qty.setText(""); exp.setText("");
+                refresh();
+            } catch (InvalidFoodInputException ex) {
+                JOptionPane.showMessageDialog(this, ex.getMessage(),
+                        "Invalid input", JOptionPane.ERROR_MESSAGE);
+            }
+        });
+
+        JPanel p = new JPanel(new GridLayout(0, 1, 4, 4));
+        p.setBorder(BorderFactory.createEmptyBorder(15, 25, 15, 25));
+        p.add(new JLabel("Food type")); p.add(type);
+        p.add(new JLabel("Food name")); p.add(name);
+        p.add(new JLabel("Quantity")); p.add(qty);
+        p.add(expL); p.add(exp); p.add(chk); p.add(add);
+        return p;
+    }
+
+    private JPanel feedPanel() {
+        JComboBox<String> strat = new JComboBox<>(new String[]{
+            "Urgency first (shortest expiry)", "Volume first (highest quantity)"});
+        JButton claim = new JButton("Claim Selected");
+        strat.addActionListener(e -> {
+            dm.setDispatchStrategy(strat.getSelectedIndex() == 0
+                ? new UrgencyFirstStrategy() : new VolumeFirstStrategy());
+            refresh();
+        });
+        claim.addActionListener(e -> {
+            int r = feedT.getSelectedRow();
+            if (r < 0) { warn("Select an available batch first."); return; }
+            dm.claim((String) feedM.getValueAt(r, 0), user);
+            refresh();
+        });
+        JPanel p = new JPanel(new BorderLayout(5, 5));
+        p.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        p.add(strat, BorderLayout.NORTH);
+        p.add(new JScrollPane(feedT), BorderLayout.CENTER);
+        p.add(claim, BorderLayout.SOUTH);
+        return p;
+    }
+
+    private JPanel activePanel() {
+        JTextField vol = new JTextField(12);
+        JButton assign = new JButton("Assign Volunteer"), done = new JButton("Mark Delivered");
+        assign.addActionListener(e -> {
+            int r = actT.getSelectedRow();
+            if (r < 0) { warn("Select a delivery first."); return; }
+            try {
+                dm.assignVolunteer((String) actM.getValueAt(r, 0), vol.getText());
+                vol.setText(""); refresh();
+            } catch (InvalidFoodInputException ex) {
+                JOptionPane.showMessageDialog(this, ex.getMessage(),
+                        "Invalid input", JOptionPane.ERROR_MESSAGE);
+            }
+        });
+        done.addActionListener(e -> {
+            int r = actT.getSelectedRow();
+            if (r < 0) { warn("Select a delivery first."); return; }
+            dm.markDelivered((String) actM.getValueAt(r, 0));
+            refresh();
+        });
+        JPanel bottom = new JPanel();
+        bottom.add(new JLabel("Volunteer name:")); bottom.add(vol);
+        bottom.add(assign); bottom.add(done);
+        JPanel p = new JPanel(new BorderLayout(5, 5));
+        p.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        p.add(new JScrollPane(actT), BorderLayout.CENTER);
+        p.add(bottom, BorderLayout.SOUTH);
+        return p;
+    }
+
+    private void warn(String m) {
+        JOptionPane.showMessageDialog(this, m, "No selection", JOptionPane.WARNING_MESSAGE);
+    }
+
+    private void refresh() {
+        feedM.setRowCount(0);
+        for (FoodItem i : dm.processMatching())
+            feedM.addRow(new Object[]{i.getBatchId(), i.getName(), i.getQuantity(),
+                i.getTypeName(), i.getHoursLeft(), i.getDonorName()});
+        actM.setRowCount(0);
+        List<FoodItem> act = dm.getActiveDeliveries();
+        for (FoodItem i : act)
+            actM.addRow(new Object[]{i.getBatchId(), i.getName(), i.getQuantity(),
+                i.getClaimedBy(), i.getVolunteer(), i.getStatus()});
+    }
+}`;
+let cur='Main.java';
+function show(f){cur=f;E('src').textContent=F[f];E('cpb').textContent='Copy this file';
+ E('files').innerHTML=Object.keys(F).map(k=>`<button class="${k==f?'on':''}" onclick="show('${k}')">${k}</button>`).join('')}
+function cp(){navigator.clipboard&&navigator.clipboard.writeText(F[cur]).then(()=>E('cpb').textContent='Copied!').catch(()=>{})}
+draw();show('Main.java');
+</script></body></html>
