@@ -1,11 +1,9 @@
 package Swing;
 
 import javax.swing.*;
-import java.awt.*;
 import java.util.Scanner;
 
 public class App extends JFrame{
-    private JPanel lastActiveWindow;
     private PanelManager PM;
     private JPanel pnlMain;
     private JButton SelectSupplier;
@@ -15,6 +13,10 @@ public class App extends JFrame{
     private JComboBox supplierCB;
     private JPanel recipientWindow;
     private JComboBox recipientCB;
+    private JButton supplierConfirm;
+    private JButton recipientConfirm;
+    private JButton supplierBack;
+    private JButton recipientBack;
 
     App(){
         this.setContentPane(pnlMain);
@@ -22,43 +24,50 @@ public class App extends JFrame{
         this.setSize(400,300);
         this.setVisible(true);
         this.PM = new PanelManager();
-        lastActiveWindow = selectWindow;
 
         PM.add(selectWindow);
         PM.add(supplierWindow);
         PM.add(recipientWindow);
+        PM.setFirstPanel(selectWindow);
+
+        PM.hideAll();
+        PM.show(selectWindow);
 
         SelectSupplier.addActionListener(e -> {
-            lastActiveWindow.setVisible(false);
-            lastActiveWindow = selectWindow;
-            supplierWindow.setVisible(true);
+            PM.show(supplierWindow);
         });
-
         SelectRecipient.addActionListener(e -> {
-            lastActiveWindow.setVisible(false);
-            lastActiveWindow = selectWindow;
-            recipientWindow.setVisible(true);
+            PM.show(recipientWindow);
         });
-    }
-
-    public void showWindow(String windowName){
-
+        supplierBack.addActionListener(e -> {
+            PM.show(selectWindow);
+        });
+        recipientBack.addActionListener(e -> {
+            PM.show(selectWindow);
+        });
     }
 
     public static void main(String[] args) {
         App app = new App();
+        // ONLY FOR DEBUGGING/TESTING {{{{
         Scanner sc = new Scanner(System.in);
         while(true) {
-            System.out.println("Op: ");
+            System.out.print("Op: ");
             String consoleInput = sc.nextLine();
             switch (consoleInput){
                 case "hideAll":
                     app.PM.hideAll();
                     break;
+                case "show":
+                    System.out.print("Window to show: ");
+                    consoleInput = sc.nextLine();
+                    app.PM.show(app.PM.getPanelObj(Integer.parseInt(consoleInput)));
+                    break;
                 default:
                     break;
             }
         }
+        // }}}}
     }
 
 
