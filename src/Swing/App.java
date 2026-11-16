@@ -17,23 +17,6 @@ public class App extends JFrame{
     private JButton recipientConfirm;
     private JButton supplierBack;
     private JButton recipientBack;
-    private JPanel dashboardWindow;
-    private JTabbedPane dashboardTabs;
-    private JComboBox foodTypeCB;
-    private JTextField txtFoodName;
-    private JTextField txtQuantity;
-    private JLabel lblExpiry;
-    private JTextField txtExpiry;
-    private JCheckBox chkFlag;
-    private JButton btnAddSurplus;
-    private JComboBox strategyCB;
-    private JTable feedTable;
-    private JButton btnClaim;
-    private JTable activeTable;
-    private JTextField txtVolunteer;
-    private JButton btnAssign;
-    private JButton btnDelivered;
-    private JButton btnBackToMenu;
 
     App(){
         this.setContentPane(pnlMain);
@@ -45,9 +28,7 @@ public class App extends JFrame{
         PM.add(selectWindow);
         PM.add(supplierWindow);
         PM.add(recipientWindow);
-        PM.add(dashboardWindow);
         PM.setFirstPanel(selectWindow);
-
 
         PM.hideAll();
         PM.show(selectWindow);
@@ -63,9 +44,6 @@ public class App extends JFrame{
         });
         recipientBack.addActionListener(e -> {
             PM.show(selectWindow);
-        });
-        supplierConfirm.addActionListener(e -> {
-            PM.show(dashboardWindow);
         });
     }
 
