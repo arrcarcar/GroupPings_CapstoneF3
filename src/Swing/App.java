@@ -1,7 +1,6 @@
 package Swing;
 
 import javax.swing.*;
-import java.awt.*;
 import java.util.Scanner;
 
 public class App extends JFrame{
@@ -46,7 +45,6 @@ public class App extends JFrame{
         recipientBack.addActionListener(e -> {
             PM.show(selectWindow);
         });
-
     }
 
     public static void main(String[] args) {
