@@ -21,7 +21,7 @@ public class App extends JFrame{
     App(){
         this.setContentPane(pnlMain);
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
-        this.setSize(400,300);
+        this.setSize(600,400);
         this.setVisible(true);
         this.PM = new PanelManager();
 
@@ -69,6 +69,4 @@ public class App extends JFrame{
         }
         // }}}}
     }
-    /////
-
 }
