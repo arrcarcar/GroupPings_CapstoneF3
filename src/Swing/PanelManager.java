@@ -51,5 +51,5 @@ public class PanelManager {
     public JPanel getPanelObj(int index){
         return panels.get(index);
     }
-    ///
+    ////
 }
