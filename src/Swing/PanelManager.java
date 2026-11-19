@@ -1,58 +1,41 @@
 package Swing;
 
-import javax.swing.*;
-import java.lang.reflect.Array;
+import javax.swing.JPanel;
 import java.util.ArrayList;
+import java.util.List;
 
 public class PanelManager {
-    private ArrayList<JPanel> panels;
-    private JPanel lastActivePanel;
-    private JPanel currentActivePanel;
 
-    public PanelManager(ArrayList<JPanel> panels) {
-        this.panels = panels;
-    }
+    private final List<JPanel> panels = new ArrayList<>();
+    private JPanel current;
 
-    public PanelManager(JPanel p) {
-        this.panels = new ArrayList<JPanel>();
-        add(p);
-        this.lastActivePanel = p;
-    }
-
-    public PanelManager() {
-        this.panels = new ArrayList<JPanel>();
-    }
-
-    public void add(JPanel newPanel) {
-        panels.add(newPanel);
+    public void add(JPanel panel) {
+        if (panel == null) {
+            throw new IllegalArgumentException("Cannot register a null panel.");
+        }
+        if (!panels.contains(panel)) {
+            panels.add(panel);
+        }
     }
 
     public void hideAll() {
-        for (JPanel p : panels) {
-            p.setVisible(false);
-
+        for (JPanel panel : panels) {
+            panel.setVisible(false);
         }
+        current = null;
     }
 
-    public void show(JPanel p) {
-        p.setVisible(true);
-        if (p != lastActivePanel) {
-            lastActivePanel.setVisible(false);
+    public void show(JPanel target) {
+        if (!panels.contains(target)) {
+            throw new IllegalArgumentException("Panel is not registered with this PanelManager.");
         }
-        lastActivePanel = p;
-
+        for (JPanel panel : panels) {
+            panel.setVisible(panel == target);
+        }
+        current = target;
     }
 
-    public void show() {
-        show(lastActivePanel);
+    public JPanel getCurrent() {
+        return current;
     }
-
-    public void setFirstPanel(JPanel p) {
-        this.lastActivePanel = p;
-    }
-
-    public JPanel getPanelObj(int index) {
-        return panels.get(index);
-    }
-    ////
 }

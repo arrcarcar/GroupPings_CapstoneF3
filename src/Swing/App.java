@@ -1,122 +1,290 @@
-///
 package Swing;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
-import java.util.Scanner;
+import java.awt.Dimension;
+import java.util.List;
 
 public class App extends JFrame {
-    private PanelManager PM;
+
+    private static final String APP_TITLE = "Pay It Forkward";
+    private static final String PLACEHOLDER_USER = "supplier1";
+    private static final String ROLE_SUPPLIER = "Supplier";
+
+    private static final Dimension SIZE_DEFAULT = new Dimension(600, 400);
+    private static final Dimension SIZE_DASHBOARD = new Dimension(780, 520);
+
+    private static final String[] FOOD_TYPES = {"Perishable", "Non-perishable"};
+    private static final String[] DISPATCH_STRATEGIES = {
+            "Urgency first (shortest expiry)",
+            "Volume first (highest quantity)"
+    };
+
+    private static final String[] FEED_COLUMNS = {"ID", "Food", "Qty", "Type", "Hrs left", "Donor"};
+    private static final String[] ACTIVE_COLUMNS = {"ID", "Food", "Qty", "Recipient", "Volunteer", "Status"};
+    private static final String[] RECIPIENT_COLUMNS =
+            {"ID", "Food", "Qty", "Type", "Hrs left", "Donor", "Select"};
+
+    private static final int[] FEED_WIDTHS = {50, 150, 50, 110, 70, 170};
+    private static final int[] ACTIVE_WIDTHS = {50, 150, 50, 170, 120, 90};
+
+    private static final int COL_ID = 0;
+    private static final int COL_FOOD = 1;
+    private static final int COL_QTY = 2;
+    private static final int COL_ACTIVE_STATUS = 5;
+    private static final int COL_SELECT = 6;
+
     private JPanel pnlMain;
+    private JPanel selectWindow;
     private JButton SelectSupplier;
     private JButton SelectRecipient;
-    private JPanel selectWindow;
+
     private JPanel supplierWindow;
-    private JComboBox supplierCB;
-    private JPanel recipientWindow;
-    private JComboBox recipientCB;
+    private JComboBox<String> supplierCB;
     private JButton supplierConfirm;
-    private JButton recipientConfirm;
     private JButton supplierBack;
+
+    private JPanel recipientWindow;
+    private JComboBox<String> recipientCB;
+    private JButton recipientConfirm;
     private JButton recipientBack;
-    private JComboBox recipientTableCB;
-    private JButton ClaimButton;
+
     private JPanel mainRecipientWindow;
+    private JComboBox<String> recipientTableCB;
+    private JButton ClaimButton;
     private JPanel urgencyTablePanel;
     private JPanel volumeTablePanel;
+    private JTable urgencyTable;
+    private JTable volumeTable;
+
     private JPanel dashboardWindow;
     private JTabbedPane dashboardTabs;
     private JButton btnBackToMenu;
-    private JComboBox foodTypeCB;
+
+    private JComboBox<String> foodTypeCB;
     private JTextField txtFoodName;
     private JTextField txtQuantity;
     private JLabel lblExpiry;
     private JTextField txtExpiry;
     private JCheckBox chkFlag;
     private JButton btnAddSurplus;
-    private JComboBox strategyCB;
+
+    private JComboBox<String> strategyCB;
     private JTable feedTable;
     private JButton btnClaim;
+
+    private JTable activeTable;
     private JTextField txtVolunteer;
     private JButton btnAssign;
     private JButton btnDelivered;
-    private JTable urgencyTable;
-    private JTable volumeTable;
-    private JTable activeTable;
+
+    private final DispatchManager dispatchManager = new DispatchManager();
+    private final PanelManager PM = new PanelManager();
+    private final PanelManager recipientTablePM = new PanelManager();
+    private final DefaultTableModel feedModel = createReadOnlyModel(FEED_COLUMNS);
+    private final DefaultTableModel activeModel = createReadOnlyModel(ACTIVE_COLUMNS);
+
+    private String establishment = "";
+    private String donorName = PLACEHOLDER_USER;
 
     App() {
-        this.setContentPane(pnlMain);
-        this.setDefaultCloseOperation(EXIT_ON_CLOSE);
-        this.setSize(600, 400);
-        this.setVisible(true);
-        this.PM = new PanelManager();
+        setTitle(APP_TITLE);
+        setContentPane(pnlMain);
+        setDefaultCloseOperation(EXIT_ON_CLOSE);
 
+        registerWindows();
+        initMenuNavigation();
+        initDonorPortal();
+        initDispatchFeed();
+        initActiveDeliveries();
+        initRecipientSection();
+
+        showMenu();
+        setVisible(true);
+    }
+
+    private void registerWindows() {
         PM.add(selectWindow);
         PM.add(supplierWindow);
         PM.add(recipientWindow);
         PM.add(mainRecipientWindow);
         PM.add(dashboardWindow);
-        PM.setFirstPanel(selectWindow);
-
-        PM.hideAll();
-        PM.show(selectWindow);
-
-        SelectSupplier.addActionListener(e -> {
-            PM.show(supplierWindow);
-        });
-        SelectRecipient.addActionListener(e -> {
-            PM.show(recipientWindow);
-        });
-        supplierBack.addActionListener(e -> {
-            PM.show(selectWindow);
-        });
-        recipientBack.addActionListener(e -> {
-            PM.show(selectWindow);
-        });
-        recipientConfirm.addActionListener(e -> {
-            PM.show(mainRecipientWindow);
-        });
-        supplierConfirm.addActionListener(e->{
-            PM.show(dashboardWindow);
-        });
-
-        setupTables();
-
-        PanelManager tablePM = new PanelManager(urgencyTablePanel);
-        tablePM.add(volumeTablePanel);
-        tablePM.hideAll();
-        tablePM.show(urgencyTablePanel);
-
-        recipientTableCB.addActionListener(e -> {
-            if (recipientTableCB.getSelectedIndex() == 0) {
-                tablePM.show(urgencyTablePanel);
-            } else {
-                tablePM.show(volumeTablePanel);
-            }
-        });
-
-        // 2. Action listener for the "Claim Selected" button (button1)
-        ClaimButton.addActionListener(e -> claimCheckedItems());
-
-        this.setVisible(true);
     }
 
-    private void setupTables() {
+    private void initMenuNavigation() {
+        SelectSupplier.addActionListener(e -> showSupplierEstablishment());
+        SelectRecipient.addActionListener(e -> showRecipientEstablishment());
+        supplierBack.addActionListener(e -> showMenu());
+        recipientBack.addActionListener(e -> showMenu());
+        btnBackToMenu.addActionListener(e -> showMenu());
+        supplierConfirm.addActionListener(e -> openDashboard());
+        recipientConfirm.addActionListener(e -> showRecipientHome());
+    }
+
+    private void showMenu() {
+        display(selectWindow, APP_TITLE, SIZE_DEFAULT);
+    }
+
+    private void showSupplierEstablishment() {
+        display(supplierWindow, APP_TITLE + " - Supplier", SIZE_DEFAULT);
+    }
+
+    private void showRecipientEstablishment() {
+        display(recipientWindow, APP_TITLE + " - Recipient", SIZE_DEFAULT);
+    }
+
+    private void showRecipientHome() {
+        display(mainRecipientWindow, APP_TITLE + " - Recipient", SIZE_DEFAULT);
+    }
+
+    private void openDashboard() {
+        Object selected = supplierCB.getSelectedItem();
+        if (selected == null) {
+            showWarning("No Selection", "Please select your establishment first.");
+            return;
+        }
+        establishment = selected.toString();
+        donorName = PLACEHOLDER_USER + " (" + establishment + ")";
+
+        clearDonorForm();
+        dashboardTabs.setSelectedIndex(0);
+        refreshTables();
+        display(dashboardWindow,
+                APP_TITLE + " - Dashboard (" + PLACEHOLDER_USER + " | " + ROLE_SUPPLIER + " | " + establishment + ")",
+                SIZE_DASHBOARD);
+    }
+
+    private void display(JPanel target, String title, Dimension size) {
+        PM.show(target);
+        setTitle(title);
+        if (!getSize().equals(size)) {
+            setSize(size);
+            setLocationRelativeTo(null);
+        }
+        pnlMain.revalidate();
+        pnlMain.repaint();
+    }
+
+    private void initDonorPortal() {
+        foodTypeCB.setModel(new DefaultComboBoxModel<>(FOOD_TYPES));
+        foodTypeCB.addActionListener(e -> updateDonorLabels());
+        updateDonorLabels();
+
+        btnAddSurplus.addActionListener(e -> guard(() -> {
+            dispatchManager.addFoodItem(isPerishableSelected(), txtFoodName.getText(),
+                    txtQuantity.getText(), txtExpiry.getText(), chkFlag.isSelected(), donorName);
+            showInfo("Success", "Surplus added to the dispatch feed.");
+            clearDonorForm();
+            refreshTables();
+        }));
+    }
+
+    private boolean isPerishableSelected() {
+        return foodTypeCB.getSelectedIndex() == 0;
+    }
+
+    private void updateDonorLabels() {
+        boolean perishable = isPerishableSelected();
+        lblExpiry.setText(perishable ? "Hours until expiration" : "Days until best-before");
+        chkFlag.setText(perishable ? "Requires refrigeration" : "Packaging intact");
+        chkFlag.setSelected(!perishable);
+    }
+
+    private void clearDonorForm() {
+        foodTypeCB.setSelectedIndex(0);
+        txtFoodName.setText("");
+        txtQuantity.setText("");
+        txtExpiry.setText("");
+        updateDonorLabels();
+    }
+
+    private void initDispatchFeed() {
+        configureTable(feedTable, feedModel, FEED_WIDTHS);
+        strategyCB.setModel(new DefaultComboBoxModel<>(DISPATCH_STRATEGIES));
+
+        strategyCB.addActionListener(e -> {
+            dispatchManager.setDispatchStrategy(strategyCB.getSelectedIndex() == 0
+                    ? new UrgencyFirstStrategy()
+                    : new VolumeFirstStrategy());
+            refreshTables();
+        });
+
+        btnClaim.addActionListener(e -> guard(() -> {
+            int row = feedTable.getSelectedRow();
+            if (row < 0) {
+                showWarning("No Selection", "Select an available batch first.");
+                return;
+            }
+            String id = (String) feedModel.getValueAt(row, COL_ID);
+            dispatchManager.claim(id, donorName);
+            refreshTables();
+            showInfo("Claimed", "Batch " + id + " claimed. See Active Deliveries.");
+        }));
+    }
+
+    private void initActiveDeliveries() {
+        configureTable(activeTable, activeModel, ACTIVE_WIDTHS);
+
+        btnAssign.addActionListener(e -> guard(() -> {
+            int row = activeTable.getSelectedRow();
+            if (row < 0 || !FoodItem.CLAIMED.equals(activeModel.getValueAt(row, COL_ACTIVE_STATUS))) {
+                showWarning("No Selection", "Select a CLAIMED batch first.");
+                return;
+            }
+            dispatchManager.assignVolunteer((String) activeModel.getValueAt(row, COL_ID),
+                    txtVolunteer.getText());
+            txtVolunteer.setText("");
+            refreshTables();
+        }));
+
+        btnDelivered.addActionListener(e -> guard(() -> {
+            int row = activeTable.getSelectedRow();
+            if (row < 0 || !FoodItem.ON_ROUTE.equals(activeModel.getValueAt(row, COL_ACTIVE_STATUS))) {
+                showWarning("No Selection", "Select an ON ROUTE delivery.");
+                return;
+            }
+            dispatchManager.markDelivered((String) activeModel.getValueAt(row, COL_ID));
+            refreshTables();
+        }));
+    }
+
+    private void refreshTables() {
+        feedModel.setRowCount(0);
+        for (FoodItem item : dispatchManager.processMatching()) {
+            feedModel.addRow(new Object[]{item.getBatchId(), item.getName(), item.getQuantity(),
+                    item.getTypeName(), item.getHoursLeft(), item.getDonorName()});
+        }
+        activeModel.setRowCount(0);
+        List<FoodItem> active = dispatchManager.getActiveDeliveries();
+        for (FoodItem item : active) {
+            activeModel.addRow(new Object[]{item.getBatchId(), item.getName(), item.getQuantity(),
+                    item.getClaimedBy(), item.getVolunteer(), item.getStatus()});
+        }
+    }
+
+    private void initRecipientSection() {
+        recipientTablePM.add(urgencyTablePanel);
+        recipientTablePM.add(volumeTablePanel);
+        recipientTablePM.show(urgencyTablePanel);
+
+        populateRecipientTables();
+
+        recipientTableCB.addActionListener(e -> recipientTablePM.show(
+                recipientTableCB.getSelectedIndex() == 0 ? urgencyTablePanel : volumeTablePanel));
+        ClaimButton.addActionListener(e -> claimCheckedItems());
+    }
+
+    private void populateRecipientTables() {
         recipientTableCB.removeAllItems();
-        recipientTableCB.addItem("Urgency first (shortest expiry)");
-        recipientTableCB.addItem("Volume first (highest quantity)");
+        recipientTableCB.addItem(DISPATCH_STRATEGIES[0]);
+        recipientTableCB.addItem(DISPATCH_STRATEGIES[1]);
 
-        // Added 7th column "Select" at index 6 for the checkbox
-        String[] columns = {"ID", "Food", "Qty", "Type", "Hrs left", "Donor", "Select"};
-
-        // Added 'false' at the end of every row for the unchecked checkbox
         Object[][] urgencyData = {
                 {"B003", "Cooked rice", 25, "Perishable", 4, "Casa Resto", false},
                 {"B001", "Bread rolls", 40, "Perishable", 6, "Sunrise Bakery", false},
                 {"B002", "Canned sardines", 120, "Non-perishable", 720, "Metro Supermart", false},
                 {"B004", "Instant noodles", 60, "Non-perishable", 2160, "Metro Supermart", false}
         };
-
         Object[][] volumeData = {
                 {"B002", "Canned sardines", 120, "Non-perishable", 720, "Metro Supermart", false},
                 {"B004", "Instant noodles", 60, "Non-perishable", 2160, "Metro Supermart", false},
@@ -124,90 +292,103 @@ public class App extends JFrame {
                 {"B003", "Cooked rice", 25, "Perishable", 4, "Casa Resto", false}
         };
 
-        urgencyTable.setModel(createCheckboxTableModel(urgencyData, columns));
-        volumeTable.setModel(createCheckboxTableModel(volumeData, columns));
+        urgencyTable.setModel(createCheckboxTableModel(urgencyData));
+        volumeTable.setModel(createCheckboxTableModel(volumeData));
     }
 
-    // Helper method that tells JTable to render column 6 ("Select") as a Checkbox
-    private DefaultTableModel createCheckboxTableModel(Object[][] data, String[] columns) {
-        return new DefaultTableModel(data, columns) {
+    private DefaultTableModel createCheckboxTableModel(Object[][] data) {
+        return new DefaultTableModel(data, RECIPIENT_COLUMNS) {
             @Override
             public Class<?> getColumnClass(int columnIndex) {
-                if (columnIndex == 6) {
-                    return Boolean.class; // Turns column 6 into a JCheckBox
-                }
-                return super.getColumnClass(columnIndex);
+                return columnIndex == COL_SELECT ? Boolean.class : super.getColumnClass(columnIndex);
             }
 
             @Override
             public boolean isCellEditable(int row, int column) {
-                return column == 6; // Only allow clicking the checkbox, lock text cells
+                return column == COL_SELECT;
             }
         };
     }
 
-    // Checks which rows are ticked and shows a dialog box
     private void claimCheckedItems() {
-        // Check which table is currently visible based on the dropdown
-        JTable activeTable = (recipientTableCB.getSelectedIndex() == 0) ? urgencyTable : volumeTable;
+        JTable visibleTable = recipientTableCB.getSelectedIndex() == 0 ? urgencyTable : volumeTable;
 
         StringBuilder claimedList = new StringBuilder();
         int count = 0;
 
-        for (int i = 0; i < activeTable.getRowCount(); i++) {
-            Boolean isChecked = (Boolean) activeTable.getValueAt(i, 6);
-            if (Boolean.TRUE.equals(isChecked)) {
-                String id = activeTable.getValueAt(i, 0).toString();
-                String food = activeTable.getValueAt(i, 1).toString();
-                String qty = activeTable.getValueAt(i, 2).toString();
-
-                claimedList.append("- ").append(food)
-                        .append(" (ID: ").append(id)
-                        .append(", Qty: ").append(qty).append(")\n");
+        for (int row = 0; row < visibleTable.getRowCount(); row++) {
+            if (Boolean.TRUE.equals(visibleTable.getValueAt(row, COL_SELECT))) {
+                claimedList.append("- ").append(visibleTable.getValueAt(row, COL_FOOD))
+                        .append(" (ID: ").append(visibleTable.getValueAt(row, COL_ID))
+                        .append(", Qty: ").append(visibleTable.getValueAt(row, COL_QTY))
+                        .append(")\n");
+                visibleTable.setValueAt(false, row, COL_SELECT);
                 count++;
-
-                // Optional: Uncheck the box after claiming
-                activeTable.setValueAt(false, i, 6);
             }
         }
 
         if (count == 0) {
-            JOptionPane.showMessageDialog(
-                    this,
-                    "Please check at least one food item to claim.",
-                    "No Item Selected",
-                    JOptionPane.WARNING_MESSAGE
-            );
+            showWarning("No Item Selected", "Please check at least one food item to claim.");
         } else {
-            JOptionPane.showMessageDialog(
-                    this,
-                    "Successfully claimed:\n" + claimedList,
-                    "Claim Confirmed",
-                    JOptionPane.INFORMATION_MESSAGE
-            );
+            showInfo("Claim Confirmed", "Successfully claimed:\n" + claimedList);
         }
     }
 
+    private static DefaultTableModel createReadOnlyModel(String[] columns) {
+        return new DefaultTableModel(columns, 0) {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        };
+    }
+
+    private static void configureTable(JTable table, DefaultTableModel model, int[] widths) {
+        table.setModel(model);
+        table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        table.setFillsViewportHeight(true);
+        table.getTableHeader().setReorderingAllowed(false);
+        for (int i = 0; i < widths.length; i++) {
+            table.getColumnModel().getColumn(i).setPreferredWidth(widths[i]);
+        }
+    }
+
+    @FunctionalInterface
+    private interface GuardedAction {
+        void run() throws InvalidFoodInputException;
+    }
+
+    private void guard(GuardedAction action) {
+        try {
+            action.run();
+        } catch (InvalidFoodInputException ex) {
+            JOptionPane.showMessageDialog(this, ex.getMessage(), "Invalid Input", JOptionPane.ERROR_MESSAGE);
+        } catch (InventoryStorageException ex) {
+            JOptionPane.showMessageDialog(this, ex.getMessage(), "Storage Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    private void showInfo(String title, String message) {
+        JOptionPane.showMessageDialog(this, message, title, JOptionPane.INFORMATION_MESSAGE);
+    }
+
+    private void showWarning(String title, String message) {
+        JOptionPane.showMessageDialog(this, message, title, JOptionPane.WARNING_MESSAGE);
+    }
 
     public static void main(String[] args) {
-        App app = new App();
-        // ONLY FOR DEBUGGING/TESTING {{{{
-        Scanner sc = new Scanner(System.in);
-        while (true) {
-            System.out.print("Op: ");
-            String consoleInput = sc.nextLine();
-            switch (consoleInput) {
-                case "hideAll":
-                    app.PM.hideAll();
-                    break;
-                case "show":
-                    System.out.print("Window to show: ");
-                    consoleInput = sc.nextLine();
-                    app.PM.show(app.PM.getPanelObj(Integer.parseInt(consoleInput)));
-                    break;
-                default:
-                    break;
+        SwingUtilities.invokeLater(() -> {
+            try {
+                UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+            } catch (Exception e) {
+                System.err.println("System look and feel unavailable: " + e.getMessage());
             }
-        }
+            try {
+                new App();
+            } catch (InventoryStorageException ex) {
+                JOptionPane.showMessageDialog(null, ex.getMessage(), "Storage Error", JOptionPane.ERROR_MESSAGE);
+                System.exit(1);
+            }
+        });
     }
 }
