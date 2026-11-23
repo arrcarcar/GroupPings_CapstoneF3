@@ -59,7 +59,7 @@ public final class DispatchManager {
             if (FoodItem.AVAILABLE.equals(item.getStatus()) && item.isSafeForDistribution()) {
                 available.add(item);
             }
-        }
+        }//comment
         return strategy.sortAndMatch(available);
     }
 

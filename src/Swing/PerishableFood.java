@@ -16,7 +16,7 @@ public class PerishableFood extends FoodItem {
     public boolean isSafeForDistribution() {
         return hoursUntilExpiration > 2;
     }
-
+    //comment
     @Override
     public int getHoursLeft() {
         return hoursUntilExpiration;

@@ -16,7 +16,7 @@ public class NonPerishableFood extends FoodItem {
     public boolean isSafeForDistribution() {
         return daysUntilBestBefore > 0 && packagingIntact;
     }
-
+    //comment
     @Override
     public int getHoursLeft() {
         return daysUntilBestBefore * 24;

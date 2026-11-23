@@ -109,7 +109,7 @@ public class SpinnerEditor extends AbstractCellEditor implements TableCellEditor
         JOptionPane.showMessageDialog(editingTable, message, "Invalid Quantity", JOptionPane.ERROR_MESSAGE);
     }
 
-
+    //comment
     @Override
     public Object getCellEditorValue() {
         return editSpinner.getValue();

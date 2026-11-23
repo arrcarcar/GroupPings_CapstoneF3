@@ -6,3 +6,4 @@ public class InventoryStorageException extends RuntimeException {
         super(message, cause);
     }
 }
+//comment

@@ -21,7 +21,7 @@ public abstract class FoodItem {
         this.quantity = quantity;
         this.donorName = donorName;
     }
-
+    //comment
     public abstract boolean isSafeForDistribution();
 
     public abstract int getHoursLeft();

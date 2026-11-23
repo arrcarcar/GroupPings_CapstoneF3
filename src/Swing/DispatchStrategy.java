@@ -1,6 +1,6 @@
 package Swing;
 
-import java.util.List;
+import java.util.List;//comment
 
 public interface DispatchStrategy {
 
