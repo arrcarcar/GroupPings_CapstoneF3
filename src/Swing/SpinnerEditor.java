@@ -127,4 +127,4 @@ public class SpinnerEditor extends AbstractCellEditor implements TableCellEditor
         }
         return super.stopCellEditing();
     }
-}I
+}
