@@ -31,4 +31,11 @@ public class NonPerishableFood extends FoodItem {
     protected String extraCsv() {
         return daysUntilBestBefore + "," + packagingIntact;
     }
+
+
+    @Override
+    public FoodItem copyWith(String newId, int newQuantity) {
+        return new NonPerishableFood(newId, getName(), newQuantity, getDonorName(),
+                daysUntilBestBefore, packagingIntact);
+    }
 }

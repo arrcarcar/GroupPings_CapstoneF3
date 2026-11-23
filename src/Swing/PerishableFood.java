@@ -31,4 +31,11 @@ public class PerishableFood extends FoodItem {
     protected String extraCsv() {
         return hoursUntilExpiration + "," + requiresRefrigeration;
     }
+
+    // NEW: copy of this item with a new ID and quantity (same name, donor, expiry, refrigeration)
+    @Override
+    public FoodItem copyWith(String newId, int newQuantity) {
+        return new PerishableFood(newId, getName(), newQuantity, getDonorName(),
+                hoursUntilExpiration, requiresRefrigeration);
+    }
 }

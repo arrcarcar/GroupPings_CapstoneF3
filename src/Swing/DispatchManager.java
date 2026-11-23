@@ -48,14 +48,19 @@ public final class DispatchManager {
         this.currentStrategy = strategy;
     }
 
+
     public List<FoodItem> processMatching() {
+        return getAvailable(currentStrategy);
+    }
+
+    public List<FoodItem> getAvailable(DispatchStrategy strategy) {
         List<FoodItem> available = new ArrayList<>();
         for (FoodItem item : inventory) {
             if (FoodItem.AVAILABLE.equals(item.getStatus()) && item.isSafeForDistribution()) {
                 available.add(item);
             }
         }
-        return currentStrategy.sortAndMatch(available);
+        return strategy.sortAndMatch(available);
     }
 
     public void claim(String id, String recipient) {
@@ -65,6 +70,32 @@ public final class DispatchManager {
             item.setClaimedBy(recipient);
             save();
         }
+    }
+
+
+    public void claim(String id, String recipient, int amount) throws InvalidFoodInputException {
+        FoodItem item = find(id);
+        if (item == null || !FoodItem.AVAILABLE.equals(item.getStatus())) {
+            throw new InvalidFoodInputException("That batch is no longer available.");
+        }
+
+        if (amount <= 0 || amount > item.getQuantity()) {
+            throw new InvalidFoodInputException("You can only take 1 to " + item.getQuantity()
+                    + " of " + item.getName() + ".");
+        }
+
+        if (amount == item.getQuantity()) {
+            item.setStatus(FoodItem.CLAIMED);
+            item.setClaimedBy(recipient);
+        } else {
+            item.setQuantity(item.getQuantity() - amount);
+            String newId = String.format("B%03d", nextId++);
+            FoodItem taken = item.copyWith(newId, amount);
+            taken.setStatus(FoodItem.CLAIMED);
+            taken.setClaimedBy(recipient);
+            inventory.add(taken);
+        }
+        save();
     }
 
     public List<FoodItem> getActiveDeliveries() {

@@ -2,6 +2,7 @@ package Swing;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumn;
 import java.awt.Dimension;
 import java.util.List;
 
@@ -9,6 +10,7 @@ public class App extends JFrame {
 
     private static final String APP_TITLE = "Pay It Forkward";
     private static final String PLACEHOLDER_USER = "supplier1";
+    private static final String PLACEHOLDER_RECIPIENT = "recipient1"; // NEW: stand-in until real recipient login exists
     private static final String ROLE_SUPPLIER = "Supplier";
 
     private static final Dimension SIZE_DEFAULT = new Dimension(600, 400);
@@ -22,8 +24,9 @@ public class App extends JFrame {
 
     private static final String[] FEED_COLUMNS = {"ID", "Food", "Qty", "Type", "Hrs left", "Donor"};
     private static final String[] ACTIVE_COLUMNS = {"ID", "Food", "Qty", "Recipient", "Volunteer", "Status"};
+    // CHANGED: last column was "Select" (checkbox), now "Take" (spinner with + / -)
     private static final String[] RECIPIENT_COLUMNS =
-            {"ID", "Food", "Qty", "Type", "Hrs left", "Donor", "Select"};
+            {"ID", "Food", "Qty", "Type", "Hrs left", "Donor", "Take"};
 
     private static final int[] FEED_WIDTHS = {50, 150, 50, 110, 70, 170};
     private static final int[] ACTIVE_WIDTHS = {50, 150, 50, 170, 120, 90};
@@ -32,7 +35,7 @@ public class App extends JFrame {
     private static final int COL_FOOD = 1;
     private static final int COL_QTY = 2;
     private static final int COL_ACTIVE_STATUS = 5;
-    private static final int COL_SELECT = 6;
+    private static final int COL_TAKE = 6; // CHANGED: renamed from COL_SELECT, it now holds a number, not a checkbox
 
     private JPanel pnlMain;
     private JPanel selectWindow;
@@ -77,15 +80,17 @@ public class App extends JFrame {
     private JTextField txtVolunteer;
     private JButton btnAssign;
     private JButton btnDelivered;
-
     private final DispatchManager dispatchManager = new DispatchManager();
     private final PanelManager PM = new PanelManager();
     private final PanelManager recipientTablePM = new PanelManager();
     private final DefaultTableModel feedModel = createReadOnlyModel(FEED_COLUMNS);
     private final DefaultTableModel activeModel = createReadOnlyModel(ACTIVE_COLUMNS);
+    private final DefaultTableModel urgencyModel = createRecipientModel();
+    private final DefaultTableModel volumeModel = createRecipientModel();
 
     private String establishment = "";
     private String donorName = PLACEHOLDER_USER;
+    private String recipientName = PLACEHOLDER_RECIPIENT;
 
     App() {
         setTitle(APP_TITLE);
@@ -134,6 +139,13 @@ public class App extends JFrame {
     }
 
     private void showRecipientHome() {
+
+        Object selected = recipientCB.getSelectedItem();
+        recipientName = PLACEHOLDER_RECIPIENT + (selected == null ? "" : " (" + selected + ")");
+
+
+        refreshTables();
+
         display(mainRecipientWindow, APP_TITLE + " - Recipient", SIZE_DEFAULT);
     }
 
@@ -169,6 +181,7 @@ public class App extends JFrame {
         foodTypeCB.setModel(new DefaultComboBoxModel<>(FOOD_TYPES));
         foodTypeCB.addActionListener(e -> updateDonorLabels());
         updateDonorLabels();
+
 
         btnAddSurplus.addActionListener(e -> guard(() -> {
             dispatchManager.addFoodItem(isPerishableSelected(), txtFoodName.getText(),
@@ -260,6 +273,24 @@ public class App extends JFrame {
             activeModel.addRow(new Object[]{item.getBatchId(), item.getName(), item.getQuantity(),
                     item.getClaimedBy(), item.getVolunteer(), item.getStatus()});
         }
+
+
+        refreshRecipientTables();
+    }
+
+
+    private void refreshRecipientTables() {
+        fillRecipientModel(urgencyModel, dispatchManager.getAvailable(new UrgencyFirstStrategy()));
+        fillRecipientModel(volumeModel, dispatchManager.getAvailable(new VolumeFirstStrategy()));
+    }
+
+
+    private void fillRecipientModel(DefaultTableModel model, List<FoodItem> items) {
+        model.setRowCount(0);
+        for (FoodItem item : items) {
+            model.addRow(new Object[]{item.getBatchId(), item.getName(), item.getQuantity(),
+                    item.getTypeName(), item.getHoursLeft(), item.getDonorName(), 0});
+        }
     }
 
     private void initRecipientSection() {
@@ -267,71 +298,85 @@ public class App extends JFrame {
         recipientTablePM.add(volumeTablePanel);
         recipientTablePM.show(urgencyTablePanel);
 
-        populateRecipientTables();
 
-        recipientTableCB.addActionListener(e -> recipientTablePM.show(
-                recipientTableCB.getSelectedIndex() == 0 ? urgencyTablePanel : volumeTablePanel));
-        ClaimButton.addActionListener(e -> claimCheckedItems());
-    }
-
-    private void populateRecipientTables() {
         recipientTableCB.removeAllItems();
         recipientTableCB.addItem(DISPATCH_STRATEGIES[0]);
         recipientTableCB.addItem(DISPATCH_STRATEGIES[1]);
 
-        Object[][] urgencyData = {
-                {"B003", "Cooked rice", 25, "Perishable", 4, "Casa Resto", false},
-                {"B001", "Bread rolls", 40, "Perishable", 6, "Sunrise Bakery", false},
-                {"B002", "Canned sardines", 120, "Non-perishable", 720, "Metro Supermart", false},
-                {"B004", "Instant noodles", 60, "Non-perishable", 2160, "Metro Supermart", false}
-        };
-        Object[][] volumeData = {
-                {"B002", "Canned sardines", 120, "Non-perishable", 720, "Metro Supermart", false},
-                {"B004", "Instant noodles", 60, "Non-perishable", 2160, "Metro Supermart", false},
-                {"B001", "Bread rolls", 40, "Perishable", 6, "Sunrise Bakery", false},
-                {"B003", "Cooked rice", 25, "Perishable", 4, "Casa Resto", false}
-        };
 
-        urgencyTable.setModel(createCheckboxTableModel(urgencyData));
-        volumeTable.setModel(createCheckboxTableModel(volumeData));
+        configureRecipientTable(urgencyTable, urgencyModel);
+        configureRecipientTable(volumeTable, volumeModel);
+
+        recipientTableCB.addActionListener(e -> recipientTablePM.show(
+                recipientTableCB.getSelectedIndex() == 0 ? urgencyTablePanel : volumeTablePanel));
+        ClaimButton.addActionListener(e -> claimSelectedItems());
     }
 
-    private DefaultTableModel createCheckboxTableModel(Object[][] data) {
-        return new DefaultTableModel(data, RECIPIENT_COLUMNS) {
+    private void configureRecipientTable(JTable table, DefaultTableModel model) {
+        table.setModel(model);
+        table.setAutoCreateColumnsFromModel(false);
+        table.setFillsViewportHeight(true);
+        table.getTableHeader().setReorderingAllowed(false);
+        table.setRowHeight(26);
+
+        TableColumn takeColumn = table.getColumn("Take");
+        SpinnerEditor spinner = new SpinnerEditor(COL_QTY);
+        takeColumn.setCellRenderer(spinner);
+        takeColumn.setCellEditor(spinner);
+
+
+        table.removeColumn(table.getColumn("ID"));
+    }
+
+
+    private static DefaultTableModel createRecipientModel() {
+        return new DefaultTableModel(RECIPIENT_COLUMNS, 0) {
             @Override
             public Class<?> getColumnClass(int columnIndex) {
-                return columnIndex == COL_SELECT ? Boolean.class : super.getColumnClass(columnIndex);
+                return columnIndex == COL_TAKE ? Integer.class : super.getColumnClass(columnIndex);
             }
 
             @Override
             public boolean isCellEditable(int row, int column) {
-                return column == COL_SELECT;
+                return column == COL_TAKE; // only the "Take" spinner can be edited
             }
         };
     }
 
-    private void claimCheckedItems() {
+
+    private void claimSelectedItems() {
         JTable visibleTable = recipientTableCB.getSelectedIndex() == 0 ? urgencyTable : volumeTable;
 
+
+        if (visibleTable.isEditing() && !visibleTable.getCellEditor().stopCellEditing()) {
+            return;
+        }
+
+        DefaultTableModel model = (DefaultTableModel) visibleTable.getModel();
         StringBuilder claimedList = new StringBuilder();
-        int count = 0;
 
-        for (int row = 0; row < visibleTable.getRowCount(); row++) {
-            if (Boolean.TRUE.equals(visibleTable.getValueAt(row, COL_SELECT))) {
-                claimedList.append("- ").append(visibleTable.getValueAt(row, COL_FOOD))
-                        .append(" (ID: ").append(visibleTable.getValueAt(row, COL_ID))
-                        .append(", Qty: ").append(visibleTable.getValueAt(row, COL_QTY))
-                        .append(")\n");
-                visibleTable.setValueAt(false, row, COL_SELECT);
-                count++;
+        guard(() -> {
+            try {
+                for (int row = 0; row < model.getRowCount(); row++) {
+                    int amount = (Integer) model.getValueAt(row, COL_TAKE);
+                    if (amount > 0) {
+
+                        dispatchManager.claim((String) model.getValueAt(row, COL_ID), recipientName, amount);
+                        claimedList.append("- ").append(model.getValueAt(row, COL_FOOD))
+                                .append(" x").append(amount).append("\n");
+                    }
+                }
+            } finally {
+
+                refreshTables();
             }
-        }
 
-        if (count == 0) {
-            showWarning("No Item Selected", "Please check at least one food item to claim.");
-        } else {
-            showInfo("Claim Confirmed", "Successfully claimed:\n" + claimedList);
-        }
+            if (claimedList.length() == 0) {
+                showWarning("No Item Selected", "Use the + / - in the Take column to choose how many to claim.");
+            } else {
+                showInfo("Claim Confirmed", "Successfully claimed:\n" + claimedList);
+            }
+        });
     }
 
     private static DefaultTableModel createReadOnlyModel(String[] columns) {

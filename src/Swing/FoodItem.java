@@ -30,6 +30,9 @@ public abstract class FoodItem {
 
     protected abstract String extraCsv();
 
+
+    public abstract FoodItem copyWith(String newId, int newQuantity);
+
     public String toCsv() {
         return String.join(",", getTypeName(), batchId, name, String.valueOf(quantity),
                 donorName, extraCsv(), status, claimedBy, volunteer);
