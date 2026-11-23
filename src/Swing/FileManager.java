@@ -19,7 +19,7 @@ public class FileManager {
 
     private FileManager() {
     }
-
+    //comment
     public static boolean hasSavedData() {
         return Files.exists(FILE_PATH);
     }

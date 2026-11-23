@@ -17,7 +17,7 @@ public class PanelManager {
             panels.add(panel);
         }
     }
-
+    //comment
     public void hideAll() {
         for (JPanel panel : panels) {
             panel.setVisible(false);

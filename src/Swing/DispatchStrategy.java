@@ -1,7 +1,5 @@
 package Swing;
 
-import Swing.Foods.FoodItem;
-
 import java.util.List;
 
 public interface DispatchStrategy {

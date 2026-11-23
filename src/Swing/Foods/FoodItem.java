@@ -21,7 +21,7 @@ public abstract class FoodItem {
         this.quantity = quantity;
         this.donorName = donorName;
     }
-
+    //comment
     public abstract boolean isSafeForDistribution();
 
     public abstract int getHoursLeft();
@@ -29,6 +29,9 @@ public abstract class FoodItem {
     public abstract String getTypeName();
 
     protected abstract String extraCsv();
+
+
+    public abstract FoodItem copyWith(String newId, int newQuantity);
 
     public String toCsv() {
         return String.join(",", getTypeName(), batchId, name, String.valueOf(quantity),

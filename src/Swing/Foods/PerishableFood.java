@@ -22,7 +22,7 @@ public class PerishableFood extends FoodItem {
     public boolean isSafeForDistribution() {
         return hoursUntilExpiration > 2;
     }
-
+    //comment
     @Override
     public int getHoursLeft() {
         return hoursUntilExpiration;
@@ -36,5 +36,12 @@ public class PerishableFood extends FoodItem {
     @Override
     protected String extraCsv() {
         return hoursUntilExpiration + "," + requiresRefrigeration;
+    }
+
+    // NEW: copy of this item with a new ID and quantity (same name, donor, expiry, refrigeration)
+    @Override
+    public FoodItem copyWith(String newId, int newQuantity) {
+        return new PerishableFood(newId, getName(), newQuantity, getDonorName(),
+                hoursUntilExpiration, requiresRefrigeration);
     }
 }

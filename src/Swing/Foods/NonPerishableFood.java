@@ -23,7 +23,7 @@ public class NonPerishableFood extends FoodItem {
     public boolean isSafeForDistribution() {
         return daysUntilBestBefore > 0 && packagingIntact;
     }
-
+    //comment
     @Override
     public int getHoursLeft() {
         return daysUntilBestBefore * 24;
@@ -37,5 +37,12 @@ public class NonPerishableFood extends FoodItem {
     @Override
     protected String extraCsv() {
         return daysUntilBestBefore + "," + packagingIntact;
+    }
+
+
+    @Override
+    public FoodItem copyWith(String newId, int newQuantity) {
+        return new NonPerishableFood(newId, getName(), newQuantity, getDonorName(),
+                daysUntilBestBefore, packagingIntact);
     }
 }

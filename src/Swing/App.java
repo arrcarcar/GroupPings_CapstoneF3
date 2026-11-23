@@ -1,7 +1,5 @@
 package Swing;
 
-import Swing.Foods.FoodItem;
-
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.Dimension;
@@ -79,15 +77,6 @@ public class App extends JFrame {
     private JTextField txtVolunteer;
     private JButton btnAssign;
     private JButton btnDelivered;
-    private JPanel createAccountWindow;
-    private JTextField CAUsernameTF;
-    private JTextField CAPasswordTF;
-    private JButton createAccBtn;
-    private JPanel loginWindow;
-    private JButton SignUpBtn;
-    private JButton LogInBtn;
-    private JTextField LogPasswordBtn;
-    private JTextField LogUsernameBtn;
 
     private final DispatchManager dispatchManager = new DispatchManager();
     private final PanelManager PM = new PanelManager();
@@ -120,8 +109,6 @@ public class App extends JFrame {
         PM.add(recipientWindow);
         PM.add(mainRecipientWindow);
         PM.add(dashboardWindow);
-        PM.add(createAccountWindow);
-        PM.add(loginWindow);
     }
 
     private void initMenuNavigation() {
