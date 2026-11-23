@@ -106,7 +106,6 @@ classDiagram
     class InventoryStorageException {
         +InventoryStorageException(String message, Throwable cause)
     }
-
     FoodItem <|-- PerishableFood
     FoodItem <|-- NonPerishableFood
 
