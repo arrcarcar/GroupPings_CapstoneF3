@@ -1,4 +1,4 @@
-package Swing;
+package Swing.Foods;
 
 public abstract class FoodItem {
 

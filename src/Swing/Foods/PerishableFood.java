@@ -1,4 +1,6 @@
-package Swing;
+package Swing.Foods;
+
+import Swing.Foods.FoodItem;
 
 public class PerishableFood extends FoodItem {
 
@@ -10,6 +12,10 @@ public class PerishableFood extends FoodItem {
         super(id, name, qty, donor);
         this.hoursUntilExpiration = hoursUntilExpiration;
         this.requiresRefrigeration = requiresRefrigeration;
+    }
+    //the ff is NOT PERMANENT, for testing purposes only
+    public PerishableFood(){
+        this("#1002", "Generic", 5, "John", 24, true);
     }
 
     @Override

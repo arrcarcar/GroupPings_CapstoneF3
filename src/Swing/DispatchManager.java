@@ -1,5 +1,9 @@
 package Swing;
 
+import Swing.Foods.FoodItem;
+import Swing.Foods.NonPerishableFood;
+import Swing.Foods.PerishableFood;
+
 import java.util.ArrayList;
 import java.util.List;
 

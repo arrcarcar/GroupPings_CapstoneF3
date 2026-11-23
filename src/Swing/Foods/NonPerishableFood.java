@@ -1,4 +1,6 @@
-package Swing;
+package Swing.Foods;
+
+import Swing.Foods.FoodItem;
 
 public class NonPerishableFood extends FoodItem {
 
@@ -10,6 +12,11 @@ public class NonPerishableFood extends FoodItem {
         super(id, name, qty, donor);
         this.daysUntilBestBefore = daysUntilBestBefore;
         this.packagingIntact = packagingIntact;
+    }
+
+    //the ff is NOT PERMANENT, for testing purposes only
+    public NonPerishableFood(){
+        this("#1002", "Generic", 5, "John", 24, true);
     }
 
     @Override

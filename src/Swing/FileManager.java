@@ -1,5 +1,9 @@
 package Swing;
 
+import Swing.Foods.FoodItem;
+import Swing.Foods.NonPerishableFood;
+import Swing.Foods.PerishableFood;
+
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
