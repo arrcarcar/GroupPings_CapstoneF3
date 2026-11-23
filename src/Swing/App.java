@@ -8,7 +8,7 @@ import java.util.List;
 
 public class App extends JFrame {
 
-    private static final String APP_TITLE = "Pay It Forkward";
+    private static final String APP_TITLE = "DonatEAT";
     private static final String PLACEHOLDER_USER = "supplier1";
     private static final String PLACEHOLDER_RECIPIENT = "recipient1"; // NEW: stand-in until real recipient login exists
     private static final String ROLE_SUPPLIER = "Supplier";
